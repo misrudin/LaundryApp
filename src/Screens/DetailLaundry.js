@@ -7,7 +7,7 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import {Content, Card} from 'native-base';
+// import {Content, Card} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const DetailLaundry = () => {
@@ -40,7 +40,7 @@ const DetailLaundry = () => {
           </View>
         </View>
         <View style={styles.fitur}>
-          <Text style={styles.name}>Jumlah</Text>
+          <Text style={styles.name}>Qty</Text>
           <View style={styles.areaFitur}>
             <View style={styles.contentFitur}>
               <Text style={styles.textFitur}>Satuan</Text>
@@ -49,17 +49,13 @@ const DetailLaundry = () => {
               <Text style={[styles.textFitur, styles.select]}>Kiloan</Text>
             </View>
           </View>
+          <TextInput
+            placeholder="Udah tau beratnya ? --- Kg"
+            style={styles.txtInput}
+            keyboardType={'numeric'}
+          />
         </View>
-        {/* qty */}
-        <View style={styles.fitur}>
-          <Text style={styles.name}>Qty</Text>
-          <View style={styles.areaFitur}>
-            <TextInput
-              placeholder="Udah tau beratnya ? --- Kg"
-              style={styles.txtInput}
-            />
-          </View>
-        </View>
+
         {/* method */}
         <View style={styles.fitur}>
           <Text style={styles.name}>Metode</Text>
@@ -123,6 +119,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginTop: 10,
     backgroundColor: '#fff',
+    paddingBottom: 20,
   },
   name: {
     fontSize: 18,

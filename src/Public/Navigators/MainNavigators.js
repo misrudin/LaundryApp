@@ -7,6 +7,7 @@ import Home from '../../Screens/Laundry';
 import Orders from '../../Screens/Orders';
 import DetailLaundry from '../../Screens/DetailLaundry';
 import Acount from '../../Screens/Acount';
+import MyLaundry from '../../Screens/MyLaundry';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,6 +55,16 @@ class main extends Component {
             component={Acount}
             options={{
               tabBarLabel: 'My Acount',
+              tabBarIcon: ({color, size}) => (
+                <Icon name="shopping-cart" color={color} size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="MyLaundry"
+            component={MyLaundry}
+            options={{
+              tabBarLabel: 'My Laundry',
               tabBarIcon: ({color, size}) => (
                 <Icon name="shopping-cart" color={color} size={size} />
               ),
