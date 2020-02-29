@@ -1,12 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TextInput,
+} from 'react-native';
 import {Content, Card} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const DetailLaundry = () => {
   return (
     <>
-      <ScrollView style={{backgroundColor: '#ddd'}}>
+      <ScrollView style={{backgroundColor: '#dedede'}}>
         <View style={styles.container}>
           <View style={styles.imgArea}>
             <Image
@@ -14,25 +21,82 @@ const DetailLaundry = () => {
               style={styles.imgLaundry}
             />
           </View>
-          <View style={styles.detail}>
-            <Text style={styles.name}>Laundry KekMaria</Text>
-            <Text style={styles.address}>Address</Text>
-            <View style={styles.rating}>
-              <Icon name="star" color="#059e05" />
-              <Icon name="star" color="#059e05" />
-              <Icon name="star" color="#059e05" />
-              <Icon name="star" color="#059e05" />
-              <Icon name="star" color="#059e05" />
+          <View style={styles.content}>
+            <View style={styles.detail}>
+              <Text style={styles.name}>Laundry KekMaria</Text>
+              <Text style={styles.address}>Address</Text>
+              <View style={styles.rating}>
+                <Icon name="star" color="#059e05" />
+                <Icon name="star" color="#059e05" />
+                <Icon name="star" color="#059e05" />
+                <Icon name="star" color="#059e05" />
+                <Icon name="star" color="#059e05" />
+              </View>
+            </View>
+            <View style={styles.status}>
+              <View style={styles.active} />
+              <Text style={styles.address}>Open</Text>
             </View>
           </View>
         </View>
         <View style={styles.fitur}>
-          <Text>Fitur</Text>
+          <Text style={styles.name}>Jumlah</Text>
+          <View style={styles.areaFitur}>
+            <View style={styles.contentFitur}>
+              <Text style={styles.textFitur}>Satuan</Text>
+            </View>
+            <View style={styles.contentFitur}>
+              <Text style={[styles.textFitur, styles.select]}>Kiloan</Text>
+            </View>
+          </View>
+        </View>
+        {/* qty */}
+        <View style={styles.fitur}>
+          <Text style={styles.name}>Qty</Text>
+          <View style={styles.areaFitur}>
+            <TextInput
+              placeholder="Udah tau beratnya ? --- Kg"
+              style={styles.txtInput}
+            />
+          </View>
+        </View>
+        {/* method */}
+        <View style={styles.fitur}>
+          <Text style={styles.name}>Metode</Text>
+          <View style={styles.areaFitur}>
+            <View style={styles.contentFitur}>
+              <Text style={[styles.textFitur, styles.select]}>
+                Antar Jemput
+              </Text>
+            </View>
+            <View style={styles.contentFitur}>
+              <Text style={styles.textFitur}>Antar</Text>
+            </View>
+            <View style={styles.contentFitur}>
+              <Text style={styles.textFitur}>Jemput</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.fitur}>
+          <Text style={styles.name}>Estmasi</Text>
+          <View style={styles.areaFitur}>
+            <View style={styles.contentFitur}>
+              <Text style={styles.textFitur}>Express</Text>
+            </View>
+            <View style={styles.contentFitur}>
+              <Text style={[styles.textFitur, styles.select]}>Biasa</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.footer}>
+          <View style={styles.btn}>
+            <Text style={styles.txtBtn}>Oke</Text>
+          </View>
+          <View style={styles.btn}>
+            <Text style={styles.txtBtn}>Oke</Text>
+          </View>
         </View>
       </ScrollView>
-      <View>
-        <Text>Footer</Text>
-      </View>
     </>
   );
 };
@@ -54,7 +118,6 @@ const styles = StyleSheet.create({
   detail: {
     marginTop: 20,
     paddingBottom: 10,
-    paddingHorizontal: 20,
   },
   fitur: {
     paddingHorizontal: 20,
@@ -65,16 +128,90 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#242323',
-    marginRight: 10,
+    marginBottom: 10,
   },
   rating: {
     marginTop: 10,
     flexDirection: 'row',
   },
   address: {
-    marginTop: 10,
     fontSize: 15,
     color: '#acacac',
+  },
+  content: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  status: {
+    backgroundColor: '#fff',
+    paddingTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  active: {
+    backgroundColor: '#059e05',
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+    marginRight: 5,
+  },
+  contentFitur: {
+    backgroundColor: '#fff',
+    marginTop: 10,
+    marginRight: 5,
+  },
+  textFitur: {
+    borderWidth: 2,
+    borderColor: '#059e05',
+    borderRadius: 100,
+    color: '#059e05',
+    fontWeight: 'bold',
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+    textAlign: 'center',
+    alignItems: 'center',
+    height: 30,
+  },
+  areaFitur: {
+    flexDirection: 'row',
+    paddingVertical: 10,
+    flexWrap: 'wrap',
+  },
+  select: {
+    backgroundColor: '#059e05',
+    color: '#fff',
+  },
+  noselect: {
+    backgroundColor: '#fff',
+    color: '#059e05',
+  },
+  txtInput: {
+    borderColor: '#eee',
+    borderWidth: 1,
+    width: '100%',
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  footer: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+    paddingTop: 40,
+    paddingBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  btn: {
+    backgroundColor: '#059e05',
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    marginRight: 20,
+  },
+  txtBtn: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });
 export default DetailLaundry;
