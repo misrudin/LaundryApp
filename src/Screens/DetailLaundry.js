@@ -26,11 +26,11 @@ const DetailLaundry = () => {
               <Text style={styles.name}>Laundry KekMaria</Text>
               <Text style={styles.address}>Address</Text>
               <View style={styles.rating}>
-                <Icon name="star" color="#059e05" />
-                <Icon name="star" color="#059e05" />
-                <Icon name="star" color="#059e05" />
-                <Icon name="star" color="#059e05" />
-                <Icon name="star" color="#059e05" />
+                <Icon name="star" color="#285bd4" solid />
+                <Icon name="star" color="#285bd4" solid />
+                <Icon name="star" color="#285bd4" solid />
+                <Icon name="star" color="#285bd4" solid />
+                <Icon name="star" color="#285bd4" solid />
               </View>
             </View>
             <View style={styles.status}>
@@ -89,7 +89,7 @@ const DetailLaundry = () => {
             <Text style={styles.txtBtn}>Oke</Text>
           </View>
           <View style={styles.btn}>
-            <Text style={styles.txtBtn}>Oke</Text>
+            <Text style={styles.txtBtn}>Males</Text>
           </View>
         </View>
       </ScrollView>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   active: {
-    backgroundColor: '#059e05',
+    backgroundColor: '#285bd4',
     width: 10,
     height: 10,
     borderRadius: 10,
@@ -161,9 +161,9 @@ const styles = StyleSheet.create({
   },
   textFitur: {
     borderWidth: 2,
-    borderColor: '#059e05',
+    borderColor: '#285bd4',
     borderRadius: 100,
-    color: '#059e05',
+    color: '#285bd4',
     fontWeight: 'bold',
     paddingVertical: 6,
     paddingHorizontal: 8,
@@ -177,12 +177,12 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   select: {
-    backgroundColor: '#059e05',
+    backgroundColor: '#285bd4',
     color: '#fff',
   },
   noselect: {
     backgroundColor: '#fff',
-    color: '#059e05',
+    color: '#285bd4',
   },
   txtInput: {
     borderColor: '#eee',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   btn: {
-    backgroundColor: '#059e05',
+    backgroundColor: '#285bd4',
     paddingHorizontal: 30,
     paddingVertical: 10,
     marginRight: 20,

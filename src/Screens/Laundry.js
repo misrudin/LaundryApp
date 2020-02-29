@@ -31,7 +31,7 @@ const Laundry = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 25,
+    marginHorizontal: 16,
     marginTop: 10,
     backgroundColor: '#fff',
   },

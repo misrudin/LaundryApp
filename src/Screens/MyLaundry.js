@@ -7,7 +7,7 @@ const MyLaundry = () => {
   return (
     <>
       <View style={styles.header}>
-        <Text style={styles.txtHeader}>header</Text>
+        <Text style={styles.txtHeader}>CuciKont</Text>
       </View>
       <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={styles.container}>
@@ -23,11 +23,11 @@ const MyLaundry = () => {
                 <Text style={styles.name}>Laundy Kekmaria</Text>
                 <Text style={styles.address}>Jl. haji dahlan no 09</Text>
                 <View style={styles.rating}>
-                  <Icon name="star" color="#059e05" />
-                  <Icon name="star" color="#059e05" />
-                  <Icon name="star" color="#059e05" />
-                  <Icon name="star" color="#059e05" />
-                  <Icon name="star" color="#059e05" />
+                  <Icon name="star" color="#285bd4" solid />
+                  <Icon name="star" color="#285bd4" solid />
+                  <Icon name="star" color="#285bd4" solid />
+                  <Icon name="star" color="#285bd4" solid />
+                  <Icon name="star" color="#285bd4" solid />
                 </View>
               </View>
             </Card>
@@ -36,7 +36,7 @@ const MyLaundry = () => {
             <View style={styles.midArea}>
               <View style={styles.title}>
                 <Text style={styles.name}>Details</Text>
-                <Icon name="edit" size={20} color="#059e05" />
+                <Icon name="edit" size={20} color="#285bd4" />
               </View>
               <View style={styles.body}>
                 <Text style={styles.nameDetail}>Address</Text>
@@ -56,7 +56,7 @@ const MyLaundry = () => {
             <View style={styles.midArea}>
               <View style={styles.title}>
                 <Text style={styles.name}>Features</Text>
-                <Icon name="edit" size={20} color="#059e05" />
+                <Icon name="edit" size={20} color="#285bd4" />
               </View>
               <View style={styles.fitur}>
                 <Text style={styles.nameDetail}>Qty</Text>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   header: {
-    backgroundColor: '#f554ff',
+    backgroundColor: '#285bd4',
     paddingHorizontal: 20,
     paddingVertical: 15,
   },
@@ -197,9 +197,9 @@ const styles = StyleSheet.create({
   },
   textFitur: {
     borderWidth: 2,
-    borderColor: '#059e05',
+    borderColor: '#285bd4',
     borderRadius: 100,
-    color: '#059e05',
+    color: '#285bd4',
     fontWeight: 'bold',
     paddingVertical: 6,
     paddingHorizontal: 8,

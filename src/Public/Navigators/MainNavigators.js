@@ -16,9 +16,9 @@ class main extends Component {
     return (
       <NavigationContainer>
         <Tab.Navigator
-          initialRouteName="Feed"
+          initialRouteName="Home"
           tabBarOptions={{
-            activeTintColor: '#059e05',
+            activeTintColor: '#285bd4',
           }}>
           <Tab.Screen
             name="Home"
