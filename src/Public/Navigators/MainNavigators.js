@@ -4,7 +4,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {Component} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Home from '../../Screens/Laundry';
-import Home2 from '../../Screens/Laundry2';
+import Orders from '../../Screens/Orders';
+import DetailLaundry from '../../Screens/DetailLaundry';
+import Acount from '../../Screens/Acount';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +17,7 @@ class main extends Component {
         <Tab.Navigator
           initialRouteName="Feed"
           tabBarOptions={{
-            activeTintColor: '#0eb31f',
+            activeTintColor: '#059e05',
           }}>
           <Tab.Screen
             name="Home"
@@ -28,12 +30,32 @@ class main extends Component {
             }}
           />
           <Tab.Screen
-            name="Home2"
-            component={Home2}
+            name="Orders"
+            component={Orders}
             options={{
-              tabBarLabel: 'Home2',
+              tabBarLabel: 'Orders',
               tabBarIcon: ({color, size}) => (
-                <Icon name="home" color={color} size={size} />
+                <Icon name="shopping-cart" color={color} size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="DetailLaundry"
+            component={DetailLaundry}
+            options={{
+              tabBarLabel: 'Detail',
+              tabBarIcon: ({color, size}) => (
+                <Icon name="shopping-cart" color={color} size={size} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Acount"
+            component={Acount}
+            options={{
+              tabBarLabel: 'My Acount',
+              tabBarIcon: ({color, size}) => (
+                <Icon name="shopping-cart" color={color} size={size} />
               ),
             }}
           />

@@ -7,8 +7,11 @@ const Laundry = () => {
   return (
     <>
       <Header />
-      <ScrollView>
+      <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={styles.container}>
+          <ListLaundry />
+          <ListLaundry />
+          <ListLaundry />
           <ListLaundry />
           <ListLaundry />
           <ListLaundry />
@@ -30,6 +33,7 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 25,
     marginTop: 10,
+    backgroundColor: '#fff',
   },
 });
 

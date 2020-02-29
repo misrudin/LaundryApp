@@ -9,10 +9,8 @@ const Header = () => {
         position: 'relative',
         paddingHorizontal: 16,
         paddingVertical: 10,
-        backgroundColor: '#eee',
+        backgroundColor: '#059e05',
         flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
       }}>
       <View style={{flex: 1, position: 'relative'}}>
         <TextInput placeholder="I want to search ..." style={styles.search} />
