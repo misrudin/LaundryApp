@@ -12,6 +12,10 @@ import MyLaundry from '../../Screens/MyLaundry';
 const Tab = createBottomTabNavigator();
 
 class main extends Component {
+  state = {
+    isVisible: true,
+  };
+
   render() {
     return (
       <NavigationContainer>
@@ -19,6 +23,7 @@ class main extends Component {
           initialRouteName="Home"
           tabBarOptions={{
             activeTintColor: '#285bd4',
+            keyboardHidesTabBar: 'true',
           }}>
           <Tab.Screen
             name="Home"

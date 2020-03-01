@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   search: {
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
     paddingLeft: 40,
     borderWidth: 1,
     borderColor: '#fff',
@@ -83,6 +83,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   txtBottom: {
     color: '#285bd4',
