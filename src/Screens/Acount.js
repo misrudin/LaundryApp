@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,47 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-community/async-storage';
+const jwtDecode = require('jwt-decode');
+import {useSelector} from 'react-redux';
 
-const Acount = () => {
+const Acount = props => {
+  const {token} = useSelector(state => state.user);
+  const [data, setData] = useState('');
+
+  const clearToken = () => {
+    AsyncStorage.removeItem('Token');
+    props.navigation.navigate('Login');
+  };
+
+  const logout = () => {
+    Alert.alert(
+      'Sure',
+      'Do you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => clearToken()},
+      ],
+      {cancelable: false},
+    );
+  };
+
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  const getToken = () => {
+    const decoded = jwtDecode(token);
+    setData(decoded);
+    console.warn(decoded);
+  };
+
   return (
     <>
       <ScrollView style={{backgroundColor: '#fff'}}>
@@ -48,7 +85,7 @@ const Acount = () => {
             <Text style={styles.text}>Aktivitas</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
           </View>
-          <TouchableOpacity style={styles.subContent} activeOpacity={0.5}>
+          <TouchableOpacity style={styles.subContent} onPress={() => logout()}>
             <Text style={styles.text}>Logout</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
           </TouchableOpacity>

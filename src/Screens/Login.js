@@ -1,101 +1,129 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
-  ScrollView,
   TouchableOpacity,
-  ImageBackground,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+import {login} from '../Public/redux/actions/user';
+import AsyncStorage from '@react-native-community/async-storage';
 
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: false,
+const Login = props => {
+  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const {isPending, isFulfilled, datalogin} = useSelector(state => state.user);
+
+  const clear = () => {
+    setEmail('');
+    setPassword('');
+  };
+
+  useEffect(() => {
+    if (isFulfilled) {
+      if (!datalogin.token) {
+        setMessage(datalogin.message);
+      } else {
+        setMessage('');
+        saveToken(datalogin.token);
+        props.navigation.navigate('User');
+        clear();
+      }
+    }
+  });
+
+  const saveToken = async data => {
+    try {
+      const token = data;
+      await AsyncStorage.setItem('Token', token);
+    } catch (error) {
+      console.warn(error.message);
+    }
+  };
+
+  const signin = async () => {
+    const data = {
+      email,
+      password,
     };
-  }
+    await dispatch(login(data));
+  };
+  return (
+    <>
+      <View style={styles.top} />
 
-  render() {
-    return (
-      <>
-        <StatusBar
-          barStyle="light-content"
-          hidden={false}
-          backgroundColor="#362dae"
-          translucent={false}
-          networkActivityIndicatorVisible={true}
-        />
+      <StatusBar
+        barStyle="light-content"
+        hidden={false}
+        backgroundColor="#362dae"
+        translucent={false}
+        networkActivityIndicatorVisible={true}
+      />
 
+      <ScrollView>
         <View style={styles.container}>
           <View style={styles.welcomeText}>
-            <Text style={{fontSize: 32, color: values.primaryColor}}>
-              Hello,
-            </Text>
-            <Text style={{fontSize: 24, color: values.primaryColor}}>
-              Welcome back!
-            </Text>
+            <Text style={styles.txtTop}>Hello</Text>
+            <Text style={styles.txtBotom}>clean and clear!</Text>
           </View>
-          <View style={styles.lilContainer}>
-            <View style={styles.inputContainer}>
-              <TextInput style={styles.textInput} placeholder="Username" />
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.textInput}
-                placeholder="Password"
-              />
-            </View>
-            <View style={styles.miscOptionCheck}>
-              <CheckBox
-                style={{marginLeft: 8}}
-                value={this.state.checked}
-                onValueChange={() =>
-                  this.setState({checked: !this.state.checked})
-                }
-              />
-              <View style={{marginTop: 8}}>
-                <Text style={{fontSize: 12}}>Remember me</Text>
-              </View>
-            </View>
-            <View style={styles.signInButtonCont}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('User')}>
-                <View style={styles.signInButton}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      fontSize: 18,
-                      color: values.light,
-                    }}>
-                    SIGN IN
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.miscOption}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Register')}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    marginTop: 16,
-                    color: values.primaryColor,
-                  }}>
-                  Does not have an account?
-                </Text>
-              </TouchableOpacity>
-            </View>
+          <Text style={styles.txtDanger}>{message}</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[
+                styles.textInput,
+                message !== 'Invalid Password!!' && message !== ''
+                  ? styles.txtErr
+                  : null,
+              ]}
+              placeholder="Email"
+              keyboardType={'email-address'}
+              onChangeText={e => setEmail(e)}
+              value={email}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              secureTextEntry={true}
+              style={[
+                styles.textInput,
+                message === 'Invalid Password!!' && message !== ''
+                  ? styles.txtErr
+                  : null,
+              ]}
+              placeholder="Password"
+              onChangeText={e => setPassword(e)}
+              value={password}
+              autoCapitalize="none"
+            />
+          </View>
+
+          <View style={styles.botom}>
+            <TouchableOpacity onPress={() => signin()}>
+              {isPending ? (
+                <ActivityIndicator size="large" color="#285bd4" />
+              ) : (
+                <Text style={styles.btn}>SIGN IN</Text>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Register')}>
+              <Text style={styles.have}>
+                Not have an account ? <Text style={styles.sign}>SIGN UP</Text>
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </>
-    );
-  }
-}
+      </ScrollView>
+    </>
+  );
+};
 
 const values = {
   light: '#FCFCFC',
@@ -109,56 +137,69 @@ const values = {
 const styles = StyleSheet.create({
   textInput: {
     backgroundColor: values.form,
-    color: '#333',
+    color: '#888',
     borderRadius: 4,
     fontSize: 16,
-    width: '90%',
-    height: '80%',
-  },
-  welcomeText: {
-    marginBottom: 64,
-    width: 250,
-    height: 100,
+    width: '100%',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   container: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  lilContainer: {
-    width: '70%',
-    height: 216,
-    marginBottom: 128,
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
   },
   inputContainer: {
-    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    marginTop: 8,
   },
-  miscOption: {
-    flex: 0.5,
-    width: '100%',
+
+  top: {
+    width: 150,
+    height: 400,
+    backgroundColor: '#362dae',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    borderBottomLeftRadius: 200,
   },
-  miscOptionCheck: {
-    marginTop: -8,
-    flexDirection: 'row',
-    flex: 0.5,
-    width: '100%',
+  txtBotom: {fontSize: 24, color: values.primaryColor},
+  txtTop: {fontSize: 32, color: values.primaryColor},
+  welcomeText: {
+    paddingVertical: 80,
   },
-  signInButton: {
-    backgroundColor: values.primaryColor,
-    minWidth: 208,
-    height: 44,
+  botom: {
+    marginTop: 40,
+    alignItems: 'center',
+  },
+  btn: {
+    paddingVertical: 15,
+    paddingHorizontal: 90,
     borderRadius: 100,
-    marginTop: 24,
-    justifyContent: 'center',
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    color: values.light,
+    backgroundColor: values.primaryColor,
+    fontWeight: 'bold',
+    borderWidth: 1,
+    borderColor: values.light,
   },
-  signInButtonCont: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
+  have: {
+    color: '#888',
+    fontSize: 16,
+    marginTop: 20,
+  },
+  sign: {
+    color: values.primaryColor,
+  },
+  txtDanger: {
+    color: 'red',
+  },
+  txtErr: {
+    borderColor: 'red',
+    borderWidth: 1,
   },
 });
 

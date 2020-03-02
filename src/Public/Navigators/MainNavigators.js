@@ -8,7 +8,7 @@ import Orders from '../../Screens/Orders';
 import DetailLaundry from '../../Screens/DetailLaundry';
 import Acount from '../../Screens/Acount';
 import MyLaundry from '../../Screens/MyLaundry';
-import {Splash} from '../../Screens/Splash';
+import Splash from '../../Screens/Splash';
 import Login from '../../Screens/Login';
 import Register from '../../Screens/Register';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -137,14 +137,28 @@ const AuthNavigator = () => {
   );
 };
 
+const mainStart = () => {
+  return (
+    <Tab.Navigator initialRouteName="Auth" backBehavior="none">
+      <Tab.Screen
+        name="Auth"
+        component={AuthNavigator}
+        options={{
+          tabBarVisible: false,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
 const StartNavigator = () => {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Auth">
+        <Stack.Navigator initialRouteName="Start">
           <Stack.Screen
-            name="Auth"
-            component={AuthNavigator}
+            name="Start"
+            component={mainStart}
             options={{headerShown: false}}
           />
           <Stack.Screen
