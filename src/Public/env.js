@@ -1,4 +1,4 @@
 export const Link = () => {
-  const url = 'http://192.168.1.242:4006/app/v1/';
+  const url = 'http://54.173.14.200:3001/api/v1/';
   return url;
 };

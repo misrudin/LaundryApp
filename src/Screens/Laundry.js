@@ -23,7 +23,7 @@ class Laundry extends Component {
       loading: true,
       page: 1,
     };
-    this.handleLoadMore = _.debounce(this.handleLoadMore, 200);
+    this.handleLoadMore = _.debounce(this.handleLoadMore, 1);
   }
 
   getData = async () => {
@@ -50,29 +50,41 @@ class Laundry extends Component {
       );
   };
 
+  showDetail = data => {
+    this.props.navigation.navigate('DetailLaundry', {data});
+  };
+
   render() {
     return (
       <View style={styles.bgWhite}>
         <Header />
-        <Card style={styles.container}>
-          <View style={styles.content}>
-            <FlatList
-              data={this.state.laundry}
-              renderItem={({item}) => <ListLaundry data={item} />}
-              keyExtractor={item => item.id}
-              showsVerticalScrollIndicator={false}
-              onEndReached={this.handleLoadMore}
-              onEndReachedThreshold={0.1}
-            />
+        <View style={styles.cover}>
+          <Card style={styles.container}>
+            <View style={styles.content}>
+              <FlatList
+                data={this.state.laundry}
+                renderItem={({item, index}) => (
+                  <ListLaundry
+                    key={index}
+                    data={item}
+                    detail={this.showDetail}
+                  />
+                )}
+                keyExtractor={item => item.id.toString()}
+                showsVerticalScrollIndicator={false}
+                onEndReached={this.handleLoadMore}
+                onEndReachedThreshold={0.5}
+              />
+            </View>
             {this.props.laundry.isPending ? (
               <ActivityIndicator
                 size="large"
-                color="#ff33ff"
+                color="#285bd4"
                 style={styles.loading}
               />
             ) : null}
-          </View>
-        </Card>
+          </Card>
+        </View>
       </View>
     );
   }
@@ -82,9 +94,10 @@ const styles = StyleSheet.create({
   container: {
     padding: 0,
     marginTop: 0,
-    marginLeft: 10,
-    marginRight: 10,
-    height: '82%',
+    marginLeft: 12,
+    marginRight: 12,
+    height: '100%',
+    borderRadius: 0,
   },
   bgWhite: {
     backgroundColor: '#fff',
@@ -93,9 +106,12 @@ const styles = StyleSheet.create({
   loading: {
     position: 'absolute',
     top: 0,
-    bottom: 0,
+    bottom: '50%',
     left: 0,
     right: 0,
+  },
+  cover: {
+    backgroundColor: '#fff',
   },
 });
 

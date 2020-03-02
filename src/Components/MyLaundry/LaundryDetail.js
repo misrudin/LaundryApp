@@ -1,5 +1,5 @@
 import styles from '../../Screens/css';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {Card} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import React from 'react';
@@ -54,10 +54,23 @@ export const LaundryDetails = props => {
   );
 };
 export const LaundryFeature = props => {
+  console.log(props.data);
   return (
     <>
       <View style={styles.contentFitur}>
-        <Text style={styles.textFitur}>{props.feature}</Text>
+        <TouchableOpacity activeOpacity={0.3}>
+          <Text style={styles.textFitur}>
+            {props.data.feature} {props.rules} {props.price}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.3}>
+          <Icon
+            name="window-close"
+            color="red"
+            size={20}
+            style={styles.trash}
+          />
+        </TouchableOpacity>
       </View>
     </>
   );

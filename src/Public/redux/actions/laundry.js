@@ -15,9 +15,9 @@ export const getDetail = id => {
     payload: axios.get(URL + `laundry/detail?id=${id}`),
   };
 };
-export const getfeature = (id, category) => {
+export const getfeature = id => {
   return {
     type: 'GET_FEATURE',
-    payload: axios.get(URL + `laundry/join?id=${id}&category${category}`),
+    payload: axios.get(URL + `laundry/join?id=${id}`),
   };
 };

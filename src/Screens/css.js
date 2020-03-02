@@ -100,6 +100,9 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: 5,
     marginRight: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   like: {
     width: 60,
@@ -116,4 +119,11 @@ export default StyleSheet.create({
   txtBlue: {
     color: '#285bd4',
   },
+  loading: {
+    marginTop: 20,
+  },
+  scroll: {
+    backgroundColor: '#fff',
+  },
+  trash: {marginLeft: 5},
 });

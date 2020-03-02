@@ -1,60 +1,64 @@
 import React from 'react';
-import {Image, View, Text, StyleSheet} from 'react-native';
+import {Image, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const ListLaundry = props => {
   return (
     <>
-      {/* // <Card> */}
-      <View style={styles.content}>
-        <View style={styles.left}>
-          <View style={styles.img}>
-            <Image source={{uri: props.data.image}} style={styles.thumb} />
-          </View>
-          <View style={styles.detail}>
-            <View style={styles.top}>
-              <Text style={styles.name}>{props.data.name}</Text>
-              <View style={styles.status}>
-                <View
-                  style={
-                    props.data.status === 'Online'
-                      ? styles.active
-                      : styles.noactive
-                  }
-                />
-                <Text
-                  style={
-                    props.data.status === 'Online'
-                      ? styles.txtBlue
-                      : styles.txtGray
-                  }>
-                  {props.data.status}
-                </Text>
-              </View>
+      <TouchableOpacity
+        activeOpacity={0.6}
+        onPress={() => props.detail(props.data)}>
+        <View style={styles.content}>
+          <View style={styles.left}>
+            <View style={styles.img}>
+              <Image source={{uri: props.data.image}} style={styles.thumb} />
             </View>
-            <View style={styles.body}>
-              <Text style={styles.txtGray}>{props.data.address}</Text>
-              <View style={styles.cta}>
-                <Text style={styles.txtBlue}>Cuci sekarang - </Text>
-                <Text style={styles.txtBlue}>Rp. {props.data.minimum} /kg</Text>
+            <View style={styles.detail}>
+              <View style={styles.top}>
+                <Text style={styles.name}>{props.data.name}</Text>
+                <View style={styles.status}>
+                  <View
+                    style={
+                      props.data.status === 'Online'
+                        ? styles.active
+                        : styles.noactive
+                    }
+                  />
+                  <Text
+                    style={
+                      props.data.status === 'Online'
+                        ? styles.txtBlue
+                        : styles.txtGray
+                    }>
+                    {props.data.status}
+                  </Text>
+                </View>
               </View>
-              <View style={styles.like}>
-                <Icon
-                  name="thumbs-up"
-                  color="#285bd4"
-                  size={20}
-                  style={{marginRight: 5}}
-                />
-                <Text style={styles.txtBlue}>{props.data.rating}</Text>
+              <View style={styles.body}>
+                <Text style={styles.txtGray}>{props.data.address}</Text>
+                <View style={styles.cta}>
+                  <Text style={styles.txtBlue}>Cuci sekarang - </Text>
+                  <Text style={styles.txtBlue}>
+                    Rp. {props.data.minimum} /kg
+                  </Text>
+                </View>
+                <View style={styles.like}>
+                  <Icon
+                    name="thumbs-up"
+                    color="#285bd4"
+                    size={20}
+                    style={{marginRight: 5}}
+                  />
+                  <Text style={styles.txtBlue}>{props.data.rating}</Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
       <View style={styles.lineContainer}>
         <View style={styles.line} />
       </View>
-      {/* </Card> */}
     </>
   );
 };

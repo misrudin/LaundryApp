@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,35 +7,50 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-// import {Content, Card} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const DetailLaundry = () => {
+const DetailLaundry = props => {
+  const [detail, setDetail] = useState([]);
+  useEffect(() => {
+    const data = props.route.params.data;
+    setDetail(data);
+    () => {
+      setDetail([]);
+    };
+  });
   return (
     <>
       <ScrollView style={{backgroundColor: '#dedede'}}>
         <View style={styles.container}>
           <View style={styles.imgArea}>
-            <Image
-              source={require('../Assets/Img/1.jpg')}
-              style={styles.imgLaundry}
-            />
+            <Image source={{uri: detail.image}} style={styles.imgLaundry} />
           </View>
           <View style={styles.content}>
             <View style={styles.detail}>
-              <Text style={styles.name}>Laundry KekMaria</Text>
-              <Text style={styles.address}>Address</Text>
-              <View style={styles.rating}>
-                <Icon name="star" color="#285bd4" solid />
-                <Icon name="star" color="#285bd4" solid />
-                <Icon name="star" color="#285bd4" solid />
-                <Icon name="star" color="#285bd4" solid />
-                <Icon name="star" color="#285bd4" solid />
+              <Text style={styles.name}>{detail.name}</Text>
+              <Text style={styles.txtGray}>{detail.address}</Text>
+              <View style={styles.like}>
+                <Icon
+                  name="thumbs-up"
+                  color="#285bd4"
+                  size={20}
+                  style={{marginRight: 5}}
+                />
+                <Text style={styles.txtBlue}>{detail.rating}</Text>
               </View>
             </View>
             <View style={styles.status}>
-              <View style={styles.active} />
-              <Text style={styles.address}>Open</Text>
+              <View
+                style={
+                  detail.status === 'Online' ? styles.active : styles.noactive
+                }
+              />
+              <Text
+                style={
+                  detail.status === 'Online' ? styles.txtBlue : styles.txtGray
+                }>
+                {detail.status}
+              </Text>
             </View>
           </View>
         </View>
@@ -127,11 +142,19 @@ const styles = StyleSheet.create({
     color: '#242323',
     marginBottom: 10,
   },
-  rating: {
-    marginTop: 10,
+  like: {
+    width: 60,
     flexDirection: 'row',
+    borderWidth: 1,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    borderRadius: 10,
+    borderColor: '#285bd4',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 5,
   },
-  address: {
+  txtGray: {
     fontSize: 15,
     color: '#acacac',
   },
@@ -149,6 +172,13 @@ const styles = StyleSheet.create({
   },
   active: {
     backgroundColor: '#285bd4',
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+    marginRight: 5,
+  },
+  noactive: {
+    backgroundColor: '#ddd',
     width: 10,
     height: 10,
     borderRadius: 10,
@@ -209,6 +239,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 18,
+  },
+  txtBlue: {
+    color: '#285bd4',
   },
 });
 export default DetailLaundry;

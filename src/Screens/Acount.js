@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const Acount = () => {
@@ -41,10 +48,10 @@ const Acount = () => {
             <Text style={styles.text}>Aktivitas</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
           </View>
-          <View style={styles.subContent}>
+          <TouchableOpacity style={styles.subContent} activeOpacity={0.5}>
             <Text style={styles.text}>Logout</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
-          </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </>
