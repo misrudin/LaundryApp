@@ -6,17 +6,17 @@ import {
   Image,
   ScrollView,
   TextInput,
+  Picker,
+  TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useSelector, useDispatch} from 'react-redux';
 
 const DetailLaundry = props => {
   const [detail, setDetail] = useState([]);
   useEffect(() => {
     const data = props.route.params.data;
     setDetail(data);
-    () => {
-      setDetail([]);
-    };
   });
   return (
     <>
@@ -27,7 +27,12 @@ const DetailLaundry = props => {
           </View>
           <View style={styles.content}>
             <View style={styles.detail}>
-              <Text style={styles.name}>{detail.name}</Text>
+              <TouchableOpacity onPress={() => alert('oke')}>
+                <Text style={styles.name}>
+                  {detail.name} ({detail.phone}){' '}
+                  <Icon name="phone" color="#285bd4" />
+                </Text>
+              </TouchableOpacity>
               <Text style={styles.txtGray}>{detail.address}</Text>
               <View style={styles.like}>
                 <Icon
@@ -57,12 +62,15 @@ const DetailLaundry = props => {
         <View style={styles.fitur}>
           <Text style={styles.name}>Qty</Text>
           <View style={styles.areaFitur}>
-            <View style={styles.contentFitur}>
-              <Text style={styles.textFitur}>Satuan</Text>
-            </View>
-            <View style={styles.contentFitur}>
-              <Text style={[styles.textFitur, styles.select]}>Kiloan</Text>
-            </View>
+            <Picker
+              // selectedValue={this.state.language}
+              style={{height: 50, width: 100}}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({language: itemValue})
+              }>
+              <Picker.Item label="Java" value="java" />
+              <Picker.Item label="JavaScript" value="js" />
+            </Picker>
           </View>
           <TextInput
             placeholder="Udah tau beratnya ? --- Kg"

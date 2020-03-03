@@ -21,3 +21,9 @@ export const getfeature = id => {
     payload: axios.get(URL + `laundry/join?id=${id}`),
   };
 };
+export const filter = q => {
+  return {
+    type: 'FILTER',
+    payload: axios.get(URL + `laundry/filter?q=${q}`),
+  };
+};

@@ -2,7 +2,7 @@ import React from 'react';
 import {TextInput, StyleSheet, View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const Header = () => {
+export const Header = props => {
   return (
     <>
       <View style={styles.contain}>
@@ -15,11 +15,12 @@ const Header = () => {
             <TextInput
               placeholder="I want to search ..."
               style={styles.search}
+              onChangeText={() => props.onSearch('kontol')}
             />
             <Icon name="search" size={20} color="#777" style={styles.icon} />
           </View>
         </View>
-        <View style={styles.botom}>
+        {/* <View style={styles.botom}>
           <View style={styles.headerBottom}>
             <Icon name="sliders-h" color="#285bd4" size={20} solid />
             <Text style={styles.txtBottom}>Filters</Text>
@@ -32,6 +33,38 @@ const Header = () => {
             <Icon name="angle-down" color="#285bd4" size={20} solid />
             <Text style={styles.txtBottom}>Distance</Text>
           </View>
+        </View> */}
+      </View>
+    </>
+  );
+};
+export const HeaderLaundry = props => {
+  return (
+    <>
+      <View style={styles.contain}>
+        <View style={styles.body}>
+          <View style={styles.inputArea}>
+            <View style={styles.titleContainer}>
+              <Icon name="map-marker-alt" color="#fff" size={20} solid />
+              <Text style={styles.title}>Laundry</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </>
+  );
+};
+export const HeaderOrders = props => {
+  return (
+    <>
+      <View style={styles.contain}>
+        <View style={styles.body}>
+          <View style={styles.inputArea}>
+            <View style={styles.titleContainer}>
+              <Icon name="map-marker-alt" color="#fff" size={20} solid />
+              <Text style={styles.title}>Order</Text>
+            </View>
+          </View>
         </View>
       </View>
     </>
@@ -40,7 +73,7 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   contain: {
-    backgroundColor: '#285bd4',
+    backgroundColor: '#362dae',
     flexDirection: 'column',
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -62,7 +95,7 @@ const styles = StyleSheet.create({
   body: {
     position: 'relative',
     paddingVertical: 10,
-    backgroundColor: '#285bd4',
+    backgroundColor: '#362dae',
     flexDirection: 'row',
   },
   inputArea: {flex: 1, position: 'relative'},
@@ -94,6 +127,15 @@ const styles = StyleSheet.create({
   botom: {
     flexDirection: 'row',
   },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#fff',
+    marginLeft: 10,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
-
-export default Header;

@@ -11,6 +11,8 @@ import MyLaundry from '../../Screens/MyLaundry';
 import Splash from '../../Screens/Splash';
 import Login from '../../Screens/Login';
 import Register from '../../Screens/Register';
+import Filter from '../../Screens/Filter';
+import DaftarLaundry from '../../Screens/DaftarLaundry';
 import {createStackNavigator} from '@react-navigation/stack';
 
 const Tab = createBottomTabNavigator();
@@ -32,6 +34,16 @@ const user = () => {
           tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => (
             <Icon name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Filter"
+        component={Filter}
+        options={{
+          tabBarLabel: 'Cari',
+          tabBarIcon: ({color, size}) => (
+            <Icon name="search" color={color} size={size} />
           ),
         }}
       />
@@ -169,6 +181,11 @@ const StartNavigator = () => {
           <Stack.Screen
             name="DetailLaundry"
             component={DetailLaundry}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Open"
+            component={DaftarLaundry}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

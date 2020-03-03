@@ -1,20 +1,22 @@
 import React, {Component} from 'react';
 import {
-  ScrollView,
   StyleSheet,
   View,
   ActivityIndicator,
   FlatList,
   Text,
+  TextInput,
 } from 'react-native';
 import ListLaundry from '../Components/ListLaundry';
-import {HeaderLaundry} from '../Components/Header';
 import {Card} from 'native-base';
 import {connect} from 'react-redux';
-import {getAllData} from '../Public/redux/actions/laundry';
+import {filter} from '../Public/redux/actions/laundry';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import styles from './css';
+
 import _ from 'lodash';
 
-class Laundry extends Component {
+class Filter extends Component {
   constructor(props) {
     super(props);
 
@@ -24,54 +26,60 @@ class Laundry extends Component {
       page: 1,
       showFilter: false,
     };
-    this.handleLoadMore = _.debounce(this.handleLoadMore, 1);
-    // this.search = _.debounce(this.search, 1);
+    this.search = _.debounce(this.search, 1000);
   }
 
-  getData = async () => {
-    await this.props.dispatch(getAllData(this.state.page));
+  getData = async q => {
+    await this.props.dispatch(filter(q));
     this.setState({
-      laundry: this.state.laundry.concat(this.props.laundry.data[2]),
+      laundry: this.props.laundry.filter,
     });
-  };
-
-  componentDidMount() {
-    this._unsubscribe = this.props.navigation.addListener('focus', () => {
-      this.setState(
-        {
-          laundry: [],
-          page: 1,
-        },
-        () => {
-          this.getData();
-        },
-      );
-    });
-  }
-
-  handleLoadMore = () => {
-    if (this.state.page < this.props.laundry.data[0])
-      this.setState(
-        {
-          page: this.state.page + 1,
-        },
-        async () => {
-          await this.getData();
-        },
-      );
   };
 
   showDetail = data => {
     this.props.navigation.navigate('DetailLaundry', {data});
   };
 
+  search = q => {
+    if (q) {
+      this.getData(q);
+    } else {
+      this.setState({
+        laundry: [],
+      });
+    }
+  };
+
+  // componentDidMount() {
+  //   this._unsubscribe = this.props.navigation.addListener('focus', () => {
+  //     this.setState({
+  //       laundry: [],
+  //     });
+  //   });
+  // }
+
   render() {
     return (
       <View style={styles.bgWhite}>
-        <HeaderLaundry />
-        <View style={styles.cover}>
-          <Card style={styles.container}>
-            <View style={styles.content}>
+        <View style={styles.contain}>
+          <View style={styles.location}>
+            <Icon name="map-marker-alt" color="#fff" size={20} solid />
+            <Text style={styles.thisLocation}>Pesona Depok Estate B2</Text>
+          </View>
+          <View style={styles.body}>
+            <View style={styles.inputArea}>
+              <TextInput
+                placeholder="I want to search ..."
+                style={styles.search}
+                onChangeText={q => this.search(q)}
+              />
+              <Icon name="search" size={20} color="#777" style={styles.icon} />
+            </View>
+          </View>
+        </View>
+        <View style={stylesb.cover}>
+          <Card style={stylesb.container}>
+            <View style={stylesb.content}>
               <FlatList
                 data={this.state.laundry}
                 renderItem={({item, index}) => (
@@ -81,7 +89,7 @@ class Laundry extends Component {
                     detail={this.showDetail}
                   />
                 )}
-                keyExtractor={item => item.id.toString()}
+                // keyExtractor={item => item.index.toString()}
                 showsVerticalScrollIndicator={false}
                 onEndReached={this.handleLoadMore}
                 onEndReachedThreshold={0.5}
@@ -91,7 +99,7 @@ class Laundry extends Component {
               <ActivityIndicator
                 size="large"
                 color="#285bd4"
-                style={styles.loading}
+                style={stylesb.loading}
               />
             ) : null}
           </Card>
@@ -101,7 +109,7 @@ class Laundry extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const stylesb = StyleSheet.create({
   container: {
     padding: 0,
     marginTop: 0,
@@ -113,7 +121,7 @@ const styles = StyleSheet.create({
   bgWhite: {
     backgroundColor: '#fff',
   },
-  content: {flex: 1, paddingBottom: 125},
+  content: {flex: 1, paddingBottom: 60},
   loading: {
     position: 'absolute',
     top: 0,
@@ -132,4 +140,4 @@ const mapStateToProps = ({laundry}) => {
   };
 };
 
-export default connect(mapStateToProps)(Laundry);
+export default connect(mapStateToProps)(Filter);

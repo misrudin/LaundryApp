@@ -6,6 +6,7 @@ const initialValue = {
   isFulfilled: false,
   detail: [],
   feature: [],
+  filter: [],
 };
 
 const laundryReducer = (state = initialValue, action) => {
@@ -72,6 +73,27 @@ const laundryReducer = (state = initialValue, action) => {
         isPending: false,
         isFulfilled: true,
         feature: action.payload.data.result,
+      };
+    case 'FILTER_PENDING':
+      return {
+        ...state,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'FILTER_REJECTED':
+      return {
+        ...state,
+        isPending: false,
+        isRejected: true,
+        errMsg: action.payload.data,
+      };
+    case 'FILTER_FULFILLED':
+      return {
+        ...state,
+        isPending: false,
+        isFulfilled: true,
+        filter: action.payload.data.result,
       };
 
     default:

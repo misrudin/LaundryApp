@@ -1,13 +1,13 @@
 import {combineReducers} from 'redux';
 import laundryReducer from './laundry';
 import userReducer from './user';
-import categoryReducer from './category';
+import ordersReducer from './orders';
 import cartReducer from './cart';
 
 const reducers = combineReducers({
   laundry: laundryReducer,
   user: userReducer,
-  category: categoryReducer,
+  orders: ordersReducer,
   cart: cartReducer,
 });
 

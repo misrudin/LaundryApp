@@ -17,9 +17,9 @@ const Acount = props => {
   const {token} = useSelector(state => state.user);
   const [data, setData] = useState('');
 
-  const clearToken = () => {
-    AsyncStorage.removeItem('Token');
-    props.navigation.navigate('Login');
+  const clearToken = async () => {
+    await AsyncStorage.removeItem('Token');
+    await props.navigation.navigate('Login');
   };
 
   const logout = () => {
@@ -73,10 +73,12 @@ const Acount = props => {
             <Text style={styles.text}>Change Password</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
           </View>
-          <View style={styles.subContent}>
+          <TouchableOpacity
+            style={styles.subContent}
+            onPress={() => props.navigation.navigate('Open')}>
             <Text style={styles.text}>Daftar Laundry</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
-          </View>
+          </TouchableOpacity>
           <View style={styles.subContent}>
             <Text style={styles.text}>Tukar Poin</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
