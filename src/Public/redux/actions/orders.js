@@ -3,10 +3,11 @@ import {Link} from '../../env';
 
 const URL = Link();
 
-export const getDataOrders = (id, status) => {
+export const getDataOrders = () => {
+  console.log('terpanggil');
   return {
     type: 'GET_ORDERS',
-    payload: axios.get(URL + `orders?id=${id}&status=${status}`),
+    payload: axios.get(URL + 'orders'),
   };
 };
 export const getDetailOrders = id => {

@@ -31,7 +31,7 @@ const DetailLaundry = props => {
 
   const getData = async id => {
     await axios
-      .get(URL + `laundry/join?id=${id}`)
+      .get(URL + 'features/')
       .then(data => {
         setFeature(data.data.result);
         // setLoading(false);
@@ -61,19 +61,19 @@ const DetailLaundry = props => {
     return data.category === 1;
   });
 
-  const handleorder = async () => {
-    alert('kontol');
+  const handleorder = () => {
+    // alert('muncul');
     const data = {
-      user_id: 1,
+      user_id: 2,
       laundry_id: props.route.params.id,
-      price: 100,
+      price: 5000,
     };
-    await axios
+    axios
       .post(URL + 'orders', data)
       .then(res => {
-        alert('oke');
+        alert('sukses');
       })
-      .catch(err => console.log(err));
+      .catch(err => alert('gagal'));
   };
 
   return (
@@ -162,7 +162,7 @@ const DetailLaundry = props => {
 
             <View style={styles.footer}>
               <TouchableOpacity style={styles.btn} onPress={handleorder}>
-                <Text style={styles.txtBtn}>Oke</Text>
+                <Text style={styles.txtBtn}>Order</Text>
               </TouchableOpacity>
             </View>
           </>

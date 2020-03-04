@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {HeaderOrders} from '../Components/Header';
@@ -6,11 +7,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getDataOrders, getDetailOrders} from '../Public/redux/actions/orders';
 
 const Laundry2 = props => {
-  // const [phone, setPhone] = useState('');
+  // const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const {dataOrders, detailOrders} = useSelector(state => state.orders);
   const getData = async () => {
-    await dispatch(getDataOrders(1, 0));
+    await dispatch(getDataOrders());
     await dispatch(getDetailOrders(1));
   };
 
@@ -18,7 +19,7 @@ const Laundry2 = props => {
     const _unsubscribe = props.navigation.addListener('focus', () => {
       getData();
     });
-  }, []);
+  }, [getData, props.navigation]);
 
   return (
     <>
