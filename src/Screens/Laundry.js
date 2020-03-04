@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import ListLaundry from '../Components/ListLaundry';
 import {HeaderLaundry} from '../Components/Header';
-import {Card} from 'native-base';
+import {Card, Picker} from 'native-base';
 import {connect} from 'react-redux';
 import {getAllData} from '../Public/redux/actions/laundry';
 import _ from 'lodash';
@@ -23,6 +23,7 @@ class Laundry extends Component {
       loading: true,
       page: 1,
       showFilter: false,
+      sort: '',
     };
     this.handleLoadMore = _.debounce(this.handleLoadMore, 1);
     // this.search = _.debounce(this.search, 1);
@@ -50,7 +51,7 @@ class Laundry extends Component {
   }
 
   handleLoadMore = () => {
-    if (this.state.page < this.props.laundry.data[0])
+    if (this.state.page < this.props.laundry.data[0]) {
       this.setState(
         {
           page: this.state.page + 1,
@@ -59,19 +60,52 @@ class Laundry extends Component {
           await this.getData();
         },
       );
+    }
   };
 
   showDetail = data => {
     this.props.navigation.navigate('DetailLaundry', {data});
     // console.warn(data.id);
   };
+  // Sort
+  handleChangeSort = e => {
+    this.setState({sort: e});
+    this.list();
+    // console.warn(this.state.sort)
+  };
+  list = () => {
+    console.log(this.state.laundry);
+    this.setState(state => {
+      if (state.sort === 'id') {
+        state.laundry.sort((a, b) => (a.id > b.id ? 1 : -1));
+      } else if (state.sort === 'name') {
+        state.laundry.sort((a, b) => (a.name > b.name ? 1 : -1));
+      } else {
+        state.laundry.sort((a, b) => (a.id > b.id ? 1 : -1));
+      }
+    });
+  };
 
   render() {
+    const Filter = () => {
+      return (
+        <View style={{flex: 0.1}}>
+          <Picker
+            selectedValue={this.state.sort}
+            style={{height: 5}}
+            onValueChange={value => this.handleChangeSort(value)}>
+            <Picker.Item label="id" value="id" />
+            <Picker.Item label="name" value="name" />
+          </Picker>
+        </View>
+      );
+    };
     return (
       <View style={styles.bgWhite}>
         <HeaderLaundry />
         <View style={styles.cover}>
           <Card style={styles.container}>
+            <Filter onChange={this.handleChangeSort} />
             <View style={styles.content}>
               <FlatList
                 data={this.state.laundry}

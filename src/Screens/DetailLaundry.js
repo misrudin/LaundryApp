@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -28,6 +29,7 @@ const DetailLaundry = props => {
   const [loading, setLoading] = useState(true);
 
   const getData = async id => {
+    console.log('ini id', id);
     await axios
       .get(URL + `laundry/join?id=${id}`)
       .then(data => {
@@ -48,7 +50,6 @@ const DetailLaundry = props => {
   useEffect(() => {
     const data = props.route.params.data;
     getData(data.id);
-    console.warn(data.id);
   }, []);
 
   let estimasi = feature.filter(data => {
@@ -73,6 +74,17 @@ const DetailLaundry = props => {
     //     alert('oke');
     //   })
     //   .catch(err => console.log(err));
+    const data = {
+      user_id: 1,
+      laundry_id: props.route.params.id,
+      price: 100,
+    };
+    await axios
+      .post(URL + 'orders', data)
+      .then(res => {
+        alert('oke');
+      })
+      .catch(err => console.log(err));
   };
 
   return (
@@ -316,7 +328,7 @@ export const FeatureDate = props => {
       // console.warn(props.data.feature);
       setLoad(false);
     }, 1000);
-  }, []);
+  }, [props.data]);
 
   const sewarna = () => {
     warna ? setwarna(false) : setwarna(true);
