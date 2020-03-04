@@ -18,7 +18,6 @@ import {Link} from '../Public/env';
 const URL = Link();
 
 const Acount = props => {
-  // const {dataUser} = useSelector(state => state.user);
   const dispatch = useDispatch();
   const [dataUser, setData] = useState([]);
   const [userrole, setRole] = useState([]);
@@ -136,7 +135,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     backgroundColor: '#fff',
-    paddingBottom: 40,
+    paddingBottom: 16,
   },
   profil: {
     backgroundColor: '#fff',
