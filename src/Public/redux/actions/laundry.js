@@ -33,3 +33,15 @@ export const addLaundry = fd => {
     payload: axios.post(URL + 'laundry', fd),
   };
 };
+export const editLaundry = (id, fd) => {
+  return {
+    type: 'EDIT_LAUNDRY',
+    payload: axios.patch(URL + `laundry?id=${id}`, fd),
+  };
+};
+export const addFeature = data => {
+  return {
+    type: 'FEATURE',
+    payload: axios.post(URL + 'features', data),
+  };
+};

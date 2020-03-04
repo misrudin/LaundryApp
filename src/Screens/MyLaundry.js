@@ -9,16 +9,18 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {Link} from '../Public/env';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const URL = Link();
 
-const MyLaundry = () => {
+const MyLaundry = props => {
   const [laundry, setLaundry] = useState([]);
   const [loading, setLoading] = useState(true);
+  // const [id, setId] = useState('');
 
-  const getData = async () => {
+  const getData = async id => {
     await axios
-      .get(URL + `laundry/mylaundry?id=${3}`)
+      .get(URL + `laundry/mylaundry?id=${id}`)
       .then(data => {
         setLaundry(data.data.result);
         setLoading(false);
@@ -26,12 +28,21 @@ const MyLaundry = () => {
       .catch(err => console.log(err));
   };
 
+  const getToken = async () => {
+    await AsyncStorage.getItem('id', (err, id) => {
+      // setId(id);
+      getData(id);
+    });
+  };
+
   useEffect(() => {
-    getData();
+    const _unsubscribe = props.navigation.addListener('focus', () => {
+      getToken();
+    });
   }, []);
 
   return (
-    <View>
+    <View style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#285bd4" />
       ) : (
@@ -43,11 +54,32 @@ const MyLaundry = () => {
             <Image source={{uri: laundry[0].image}} style={styles.img} />
           </View>
           <View style={styles.footer}>
-            <TouchableOpacity>
-              <Text>Edit Harga</Text>
+            <Text style={styles.head}>Qty</Text>
+            <Text style={styles.head}>Metode</Text>
+            <Text style={styles.head}>Estimasi</Text>
+          </View>
+          <View style={styles.footerContent}>
+            <Text style={styles.content}>Kiloan</Text>
+            <Text style={styles.content}>Antar Jemput</Text>
+            <Text style={styles.content}>Biasa</Text>
+          </View>
+          <View style={styles.footerContent}>
+            <Text style={styles.content}>Satuan</Text>
+            <Text style={styles.content} />
+            <Text style={styles.content}>Expres</Text>
+          </View>
+          <View style={styles.footerBtn}>
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate('EditLaundry', {data: laundry})
+              }>
+              <Text style={styles.btn}>Edit Detail</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Text>Edit Harga</Text>
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate('EditHarga', {data: laundry})
+              }>
+              <Text style={styles.btn}>Price</Text>
             </TouchableOpacity>
           </View>
         </>
@@ -57,6 +89,9 @@ const MyLaundry = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   header: {
     backgroundColor: '#362dae',
     paddingVertical: 20,
@@ -67,16 +102,39 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  body: {
-    flex: 1,
-  },
   img: {
     width: '100%',
     height: 300,
   },
   footer: {
-    backgroundColor: 'red',
     flexDirection: 'row',
+    paddingHorizontal: 20,
+    marginTop: 10,
+    justifyContent: 'space-between',
+  },
+  head: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  footerContent: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    marginTop: 5,
+    justifyContent: 'space-between',
+  },
+  footerBtn: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    marginTop: 50,
+    justifyContent: 'space-around',
+  },
+  btn: {
+    backgroundColor: '#362dae',
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderRadius: 20,
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 

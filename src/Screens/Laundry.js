@@ -107,20 +107,24 @@ class Laundry extends Component {
           <Card style={styles.container}>
             <Filter onChange={this.handleChangeSort} />
             <View style={styles.content}>
-              <FlatList
-                data={this.state.laundry}
-                renderItem={({item, index}) => (
-                  <ListLaundry
-                    key={index}
-                    data={item}
-                    detail={this.showDetail}
-                  />
-                )}
-                keyExtractor={item => item.id.toString()}
-                showsVerticalScrollIndicator={false}
-                onEndReached={this.handleLoadMore}
-                onEndReachedThreshold={0.5}
-              />
+              {this.state.laundry ? (
+                <FlatList
+                  data={this.state.laundry}
+                  renderItem={({item, index}) => (
+                    <ListLaundry
+                      key={index}
+                      data={item}
+                      detail={this.showDetail}
+                    />
+                  )}
+                  keyExtractor={item => item.id.toString()}
+                  showsVerticalScrollIndicator={false}
+                  onEndReached={this.handleLoadMore}
+                  onEndReachedThreshold={0.5}
+                />
+              ) : (
+                <Text>Empty List</Text>
+              )}
             </View>
             {this.props.laundry.isPending ? (
               <ActivityIndicator

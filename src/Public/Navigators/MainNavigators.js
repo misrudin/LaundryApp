@@ -14,6 +14,8 @@ import Register from '../../Screens/Register';
 import Filter from '../../Screens/Filter';
 import DaftarLaundry from '../../Screens/DaftarLaundry';
 import {createStackNavigator} from '@react-navigation/stack';
+import EditLaundry from '../../Screens/EditLaundry';
+import EditHarga from '../../Screens/EditHarga';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -86,6 +88,7 @@ const mitra = () => {
         component={MyLaundry}
         options={{
           tabBarLabel: 'My Laundry',
+          unmountOnBlur: 'true',
           tabBarIcon: ({color, size}) => (
             <Icon name="home" color={color} size={size} />
           ),
@@ -189,6 +192,16 @@ const StartNavigator = () => {
           <Stack.Screen
             name="Open"
             component={DaftarLaundry}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="EditLaundry"
+            component={EditLaundry}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="EditHarga"
+            component={EditHarga}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

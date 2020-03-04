@@ -116,6 +116,48 @@ const laundryReducer = (state = initialValue, action) => {
         isFulfilled: true,
         filter: action.payload.data.result,
       };
+    case 'EDIT_LAUNDRY_PENDING':
+      return {
+        ...state,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'EDIT_LAUNDRY_REJECTED':
+      return {
+        ...state,
+        isPending: false,
+        isRejected: true,
+        errMsg: action.payload.data,
+      };
+    case 'EDIT_LAUNDRY_FULFILLED':
+      return {
+        ...state,
+        isPending: false,
+        isFulfilled: true,
+        filter: action.payload.data.result,
+      };
+    case 'FEATURE_PENDING':
+      return {
+        ...state,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'FEATURE_REJECTED':
+      return {
+        ...state,
+        isPending: false,
+        isRejected: true,
+        errMsg: action.payload.data,
+      };
+    case 'FEATURE_FULFILLED':
+      return {
+        ...state,
+        isPending: false,
+        isFulfilled: true,
+        filter: action.payload.data.result,
+      };
 
     default:
       return state;
