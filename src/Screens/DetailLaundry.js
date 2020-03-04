@@ -21,7 +21,6 @@ const URL = Link();
 
 const DetailLaundry = props => {
   const dispatch = useDispatch();
-  // const {} = useSelector(state => state.laundry);
   const [idFeature, setId] = useState('');
   const [qtyOrder, setQty] = useState('');
   const [detail, setDetail] = useState([]);
@@ -40,6 +39,7 @@ const DetailLaundry = props => {
       .get(URL + `laundry/detail?id=${id}`)
       .then(res => {
         setDetail(res.data.result);
+        console.log(res.data.result);
         setLoading(false);
       })
       .catch(err => console.log(err));
@@ -48,6 +48,7 @@ const DetailLaundry = props => {
   useEffect(() => {
     const data = props.route.params.data;
     getData(data.id);
+    console.warn(data.id);
   }, []);
 
   let estimasi = feature.filter(data => {
@@ -61,18 +62,17 @@ const DetailLaundry = props => {
   });
 
   const handleorder = async () => {
-    alert('kontol');
-    const data = {
-      user_id: 1,
-      laundry_id: props.route.params.id,
-      price: 100,
-    };
-    await axios
-      .post(URL + `orders`, data)
-      .then(res => {
-        alert('oke');
-      })
-      .catch(err => console.log(err));
+    // const data = {
+    //   user_id: 1,
+    //   laundry_id: props.route.params.id,
+    //   price: 100,
+    // };
+    // await axios
+    //   .post(URL + `orders`, data)
+    //   .then(res => {
+    //     alert('oke');
+    //   })
+    //   .catch(err => console.log(err));
   };
 
   return (

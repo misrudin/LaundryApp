@@ -44,7 +44,7 @@ const Login = props => {
       await AsyncStorage.setItem('id', id);
       await AsyncStorage.setItem('role', role);
     } catch (error) {
-      console.warn(error.message);
+      console.warn(error.msg);
     }
   };
 

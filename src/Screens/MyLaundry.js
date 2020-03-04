@@ -1,150 +1,83 @@
-import React, {Component} from 'react';
-import {View, Text, ScrollView, ActivityIndicator} from 'react-native';
-import {Card} from 'native-base';
-import {connect} from 'react-redux';
-import {getDetail, getfeature} from '../Public/redux/actions/laundry';
-import styles from './css';
+import React, {useEffect, useState} from 'react';
 import {
-  LaundryDetails,
-  LaundryHead,
-  LaundryFeature,
-} from '../Components/MyLaundry/LaundryDetail';
+  View,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import axios from 'axios';
+import {Link} from '../Public/env';
 
-class MyLaundry extends Component {
-  constructor(props) {
-    super(props);
+const URL = Link();
 
-    this.state = {
-      detail: [],
-      features: [],
-    };
-  }
+const MyLaundry = () => {
+  const [laundry, setLaundry] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  getData = async () => {
-    const id = 61;
-    await this.props.dispatch(getDetail(id));
-    await this.props.dispatch(getfeature(id));
-    this.setState({
-      detail: this.props.laundry.detail,
-      features: this.props.laundry.feature,
-    });
+  const getData = async () => {
+    await axios
+      .get(URL + `laundry/mylaundry?id=${3}`)
+      .then(data => {
+        setLaundry(data.data.result);
+        setLoading(false);
+      })
+      .catch(err => console.log(err));
   };
 
-  componentDidMount() {
-    this.getData();
-  }
+  useEffect(() => {
+    getData();
+  }, []);
 
-  render() {
-    let qty = this.state.features.filter(data => {
-      return data.category === 3;
-    });
-    let metode = this.state.features.filter(data => {
-      return data.category === 2;
-    });
-    let estimasi = this.state.features.filter(data => {
-      return data.category === 1;
-    });
-    return (
-      <>
-        <View style={styles.header}>
-          <Text style={styles.txtHeader}>Cuciwae</Text>
-        </View>
-        <ScrollView style={styles.scroll}>
-          {!this.props.laundry.isPending ? (
-            <View style={styles.container}>
-              <View style={styles.topArea}>
-                {this.state.detail.map(data => {
-                  return <LaundryHead key={data.id} data={data} />;
-                })}
-              </View>
-              <Card>
-                {this.state.detail.map(data => {
-                  return <LaundryDetails key={data.id} data={data} />;
-                })}
-              </Card>
-              <Card>
-                <View style={styles.midArea}>
-                  <View style={styles.title}>
-                    <Text style={styles.name}>Features</Text>
-                  </View>
-                  <View style={styles.fitur}>
-                    <Text style={styles.nameDetail}>Qty</Text>
-                    <View style={styles.areaFitur}>
-                      {qty.map((data, index) => {
-                        return (
-                          <LaundryFeature
-                            key={index}
-                            data={data}
-                            rules={`- min(${data.rules}) -kg`}
-                            price={`- ${data.price}/kg`}
-                          />
-                        );
-                      })}
-                    </View>
-                  </View>
-                  <View style={styles.fitur}>
-                    <Text style={styles.nameDetail}>Metode</Text>
-                    <View style={styles.areaFitur}>
-                      {metode.map((data, index) => {
-                        return (
-                          <LaundryFeature
-                            key={index}
-                            data={data}
-                            rules={`- max(${data.rules}) km`}
-                            price={`- ${data.price}/km`}
-                          />
-                        );
-                      })}
-                    </View>
-                  </View>
-                  <View style={styles.fitur}>
-                    <Text style={styles.nameDetail}>Estimasi</Text>
-                    <View style={styles.areaFitur}>
-                      {estimasi.map((data, index) => {
-                        return (
-                          <LaundryFeature
-                            key={index}
-                            data={data}
-                            rules={`- (${data.rules}) day`}
-                            price={`- ${data.price}/kg`}
-                          />
-                        );
-                      })}
-                    </View>
-                  </View>
-                </View>
-              </Card>
-              <Card>
-                <View style={styles.midArea}>
-                  <View style={styles.title}>
-                    <Text style={styles.name}>History</Text>
-                  </View>
-                </View>
-              </Card>
-              <Card>
-                <View style={styles.midArea}>
-                  <View style={styles.title}>
-                    <Text style={styles.name}>History</Text>
-                  </View>
-                </View>
-              </Card>
-            </View>
-          ) : (
-            <ActivityIndicator
-              size="large"
-              color="#ff33ff"
-              style={styles.loading}
-            />
-          )}
-        </ScrollView>
-      </>
-    );
-  }
-}
-
-const mapStateToProps = ({laundry}) => {
-  return {
-    laundry,
-  };
+  return (
+    <View>
+      {loading ? (
+        <ActivityIndicator size="large" color="#285bd4" />
+      ) : (
+        <>
+          <View style={styles.header}>
+            <Text style={styles.txtHeader}>{laundry[0].name}</Text>
+          </View>
+          <View style={styles.body}>
+            <Image source={{uri: laundry[0].image}} style={styles.img} />
+          </View>
+          <View style={styles.footer}>
+            <TouchableOpacity>
+              <Text>Edit Harga</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text>Edit Harga</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
+    </View>
+  );
 };
-export default connect(mapStateToProps)(MyLaundry);
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#362dae',
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+  },
+  txtHeader: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  body: {
+    flex: 1,
+  },
+  img: {
+    width: '100%',
+    height: 300,
+  },
+  footer: {
+    backgroundColor: 'red',
+    flexDirection: 'row',
+  },
+});
+
+export default MyLaundry;
