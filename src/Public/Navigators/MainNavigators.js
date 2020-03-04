@@ -41,7 +41,7 @@ const user = () => {
         name="Filter"
         component={Filter}
         options={{
-          tabBarLabel: 'Cari',
+          tabBarLabel: 'Search',
           unmountOnBlur: true,
           tabBarIcon: ({color, size}) => (
             <Icon name="search" color={color} size={size} />
@@ -63,7 +63,7 @@ const user = () => {
         name="Acount"
         component={Acount}
         options={{
-          tabBarLabel: 'My Acount',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({color, size}) => (
             <Icon name="user" color={color} solid size={size} />
           ),

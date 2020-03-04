@@ -61,7 +61,6 @@ const DetailLaundry = props => {
   });
 
   const handleorder = async () => {
-    alert('kontol');
     const data = {
       user_id: 1,
       laundry_id: props.route.params.id,
@@ -126,6 +125,32 @@ const DetailLaundry = props => {
                   </Text>
                 </View>
               </View>
+              <View style = {styles.formOrder}>
+                <View style = {styles.formTitle}>
+
+                </View>
+                <View style = {styles.formGroup}>
+                  <View style = {styles.label}>
+
+                  </View>
+                  <View style = {styles.formPicker}>
+                  </View>
+                </View>
+                <View style = {styles.formGroup}>
+                  <View style = {styles.label}>
+
+                  </View>
+                  <View style = {styles.formPicker}>
+                  </View>
+                </View>
+                <View style = {styles.formGroup}>
+                  <View style = {styles.label}>
+
+                  </View>
+                  <View style = {styles.formPicker}>
+                  </View>
+                </View>
+              </View>
             </View>
             <View style={styles.fitur}>
               <Text style={styles.name}>Qty</Text>
@@ -172,6 +197,33 @@ const DetailLaundry = props => {
 };
 
 const styles = StyleSheet.create({
+  formTitle:{
+    backgroundColor: 'yellow',
+    height: 50,
+    width: '100%'
+  },
+  formGroup:{
+    borderBottomWidth: 1,
+    borderColor: 'red',
+    flexDirection: 'row',
+    width: '100%',
+    height: 50
+  },
+  label: {
+    backgroundColor: 'blue',
+    flex: 1
+  },
+  formPicker:{
+    backgroundColor: 'green',
+    height: 50,
+    flex: 2.5
+  },
+  formOrder:{
+    alignItems: 'center',
+    backgroundColor: 'red',
+    // height: 100,
+    width: '100%',
+  },
   container: {
     backgroundColor: '#fff',
     paddingHorizontal: 0,
@@ -191,7 +243,7 @@ const styles = StyleSheet.create({
   },
   fitur: {
     paddingHorizontal: 20,
-    marginTop: 10,
+    marginTop: 8,
     backgroundColor: '#fff',
     paddingBottom: 20,
   },
@@ -211,7 +263,7 @@ const styles = StyleSheet.create({
     borderColor: '#285bd4',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 5,
+    marginTop: 8,
   },
   txtGray: {
     fontSize: 15,
