@@ -12,20 +12,23 @@ import {
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import {register} from '../Public/redux/actions/user';
+import {addLaundry} from '../Public/redux/actions/laundry';
+import {editRole} from '../Public/redux/actions/user';
 import ImagePicker from 'react-native-image-picker';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Open = props => {
   const [Name, setName] = useState('');
-  const [image, setImage] = useState(null);
-  const [imgSrc, setSrc] = useState(null);
+  const [image, setImage] = useState('');
   const [Specific, setSpecific] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const dispatch = useDispatch();
-  const {isPending} = useSelector(state => state.user);
+  const {isPending} = useSelector(state => state.laundry);
 
-  useEffect(() => {});
+  useEffect(() => {
+    // console.warn(props.route.params.id_user);
+  }, []);
 
   const showImage = () => {
     const options = {
@@ -46,26 +49,37 @@ const Open = props => {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        const source = {uri: response.uri};
-        setImage(source);
-        setSrc(response);
+        setImage(response);
       }
     });
   };
 
-  const clear = () => {
+  const clear = async () => {
+    setName('');
     setAddress('');
+    setSpecific('');
     setPhone('');
+    setImage('');
+    await AsyncStorage.removeItem('Token');
+    await AsyncStorage.removeItem('id');
+    await props.navigation.navigate('Splash');
   };
 
   const daftar = async () => {
-    // const data = {
-    //   email,
-    //   username,
-    //   address,
-    //   phone,
-    // };
-    // await dispatch(register(data));
+    let fd = new FormData();
+    fd.append('name', Name);
+    fd.append('address', address);
+    fd.append('user_id', props.route.params.id_user);
+    fd.append('description', Specific);
+    fd.append('phone', phone);
+    fd.append('image', {
+      uri: image.uri,
+      name: image.fileName,
+      type: image.type,
+    });
+    await dispatch(addLaundry(fd));
+    await dispatch(editRole(props.route.params.id_user));
+    // console.warn(fd);
     Alert.alert(
       'Congratulation',
       'Succes Register, please Login!',
@@ -109,7 +123,6 @@ const Open = props => {
           </View>
           <View style={styles.inputContainer}>
             <TextInput
-              secureTextEntry={true}
               style={styles.textInput}
               placeholder="Specific Address"
               onChangeText={e => setSpecific(e)}
@@ -118,7 +131,6 @@ const Open = props => {
           </View>
           <View style={styles.inputContainer}>
             <TextInput
-              secureTextEntry={true}
               style={styles.textInput}
               placeholder="Phone Number"
               keyboardType={'number-pad'}
@@ -128,19 +140,12 @@ const Open = props => {
           </View>
           <View style={styles.imgConatiner}>
             <TouchableOpacity style={styles.img} onPress={showImage}>
-              <Image source={image} style={styles.images} />
+              <Image source={{uri: image.uri}} style={styles.images} />
               <Text style={styles.labelimage}>Add image</Text>
             </TouchableOpacity>
             <View style={styles.txtContainer}>
               <View style={styles.inputContainer}>
-                <TextInput style={styles.textInput} placeholder="Open" />
-              </View>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  style={styles.textInput}
-                  placeholder="Close"
-                  multiline
-                />
+                <Text>Selamt bergabung</Text>
               </View>
             </View>
           </View>

@@ -15,3 +15,9 @@ export const getDetailOrders = id => {
     payload: axios.get(URL + `detail?id=${id}`),
   };
 };
+export const addOrder = data => {
+  return {
+    type: 'ORDERS',
+    payload: axios.post(URL + 'orders', data),
+  };
+};

@@ -27,3 +27,9 @@ export const filter = q => {
     payload: axios.get(URL + `laundry/filter?q=${q}`),
   };
 };
+export const addLaundry = fd => {
+  return {
+    type: 'ADD_LAUNDRY',
+    payload: axios.post(URL + 'laundry', fd),
+  };
+};

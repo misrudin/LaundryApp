@@ -51,6 +51,26 @@ const ordersReducer = (state = initialValue, action) => {
         isFulfilled: true,
         detailOrders: action.payload.data.result,
       };
+    case 'ORDERS_PENDING':
+      return {
+        ...state,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'ORDERS_REJECTED':
+      return {
+        ...state,
+        isPending: false,
+        isRejected: true,
+        errMsg: action.payload.data,
+      };
+    case 'ORDERS_FULFILLED':
+      return {
+        ...state,
+        isPending: false,
+        isFulfilled: true,
+      };
 
     default:
       return state;

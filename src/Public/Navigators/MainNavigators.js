@@ -42,6 +42,7 @@ const user = () => {
         component={Filter}
         options={{
           tabBarLabel: 'Cari',
+          unmountOnBlur: true,
           tabBarIcon: ({color, size}) => (
             <Icon name="search" color={color} size={size} />
           ),
@@ -136,6 +137,7 @@ const AuthNavigator = () => {
         component={user}
         options={{
           tabBarVisible: false,
+          unmountOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -143,6 +145,7 @@ const AuthNavigator = () => {
         component={mitra}
         options={{
           tabBarVisible: false,
+          unmountOnBlur: true,
         }}
       />
     </Tab.Navigator>

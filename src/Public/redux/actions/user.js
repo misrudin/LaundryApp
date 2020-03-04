@@ -21,6 +21,12 @@ export const getByidUser = id => {
     payload: axios.get(URL + `user?id=${id}`),
   };
 };
+export const editRole = id => {
+  return {
+    type: 'ROLE',
+    payload: axios.patch(URL + `user/role?id=${id}`),
+  };
+};
 export const savetoken = token => {
   return {
     type: 'TOKEN',

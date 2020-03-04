@@ -8,19 +8,41 @@ import {
   TextInput,
   Picker,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useSelector, useDispatch} from 'react-redux';
 import {getfeature, getDetail} from '../Public/redux/actions/laundry';
+import {addOrder} from '../Public/redux/actions/orders';
+import axios from 'axios';
+import {Link} from '../Public/env';
+
+const URL = Link();
 
 const DetailLaundry = props => {
   const dispatch = useDispatch();
-  const {feature, detail} = useSelector(state => state.laundry);
+  // const {} = useSelector(state => state.laundry);
   const [idFeature, setId] = useState('');
+  const [qtyOrder, setQty] = useState('');
+  const [detail, setDetail] = useState([]);
+  const [feature, setFeature] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getData = async id => {
-    await dispatch(getDetail(id));
-    await dispatch(getfeature(id));
+    await axios
+      .get(URL + `laundry/join?id=${id}`)
+      .then(data => {
+        setFeature(data.data.result);
+        // setLoading(false);
+      })
+      .catch(err => console.log(err));
+    await axios
+      .get(URL + `laundry/detail?id=${id}`)
+      .then(res => {
+        setDetail(res.data.result);
+        setLoading(false);
+      })
+      .catch(err => console.log(err));
   };
 
   useEffect(() => {
@@ -38,112 +60,112 @@ const DetailLaundry = props => {
     return data.category === 1;
   });
 
+  const handleorder = async () => {
+    alert('kontol');
+    const data = {
+      user_id: 1,
+      laundry_id: props.route.params.id,
+      price: 100,
+    };
+    await axios
+      .post(URL + `orders`, data)
+      .then(res => {
+        alert('oke');
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <>
       <ScrollView style={{backgroundColor: '#dedede'}}>
-        <View style={styles.container}>
-          <View style={styles.imgArea}>
-            <Image source={{uri: detail[0].image}} style={styles.imgLaundry} />
-          </View>
-          <View style={styles.content}>
-            <View style={styles.detail}>
-              <TouchableOpacity onPress={() => alert('oke')}>
-                <Text style={styles.name}>
-                  {detail[0].name} ({detail[0].phone}){' '}
-                  <Icon name="phone" color="#285bd4" />
-                </Text>
-              </TouchableOpacity>
-              <Text style={styles.txtGray}>{detail[0].address}</Text>
-              <View style={styles.like}>
-                <Icon
-                  name="thumbs-up"
-                  color="#285bd4"
-                  size={20}
-                  style={{marginRight: 5}}
+        {loading ? (
+          <ActivityIndicator size="large" color="#285bd4" />
+        ) : (
+          <>
+            <View style={styles.container}>
+              <View style={styles.imgArea}>
+                <Image
+                  source={{uri: detail[0].image}}
+                  style={styles.imgLaundry}
                 />
-                <Text style={styles.txtBlue}>{detail[0].rating}</Text>
+              </View>
+              <View style={styles.content}>
+                <View style={styles.detail}>
+                  <TouchableOpacity onPress={() => alert('oke')}>
+                    <Text style={styles.name}>
+                      {detail[0].name} ({detail[0].phone}){' '}
+                      <Icon name="phone" color="#285bd4" />
+                    </Text>
+                  </TouchableOpacity>
+                  <Text style={styles.txtGray}>{detail[0].address}</Text>
+                  <View style={styles.like}>
+                    <Icon
+                      name="thumbs-up"
+                      color="#285bd4"
+                      size={20}
+                      style={{marginRight: 5}}
+                    />
+                    <Text style={styles.txtBlue}>{detail[0].rating}</Text>
+                  </View>
+                </View>
+                <View style={styles.status}>
+                  <View
+                    style={
+                      detail[0].status === 'Online'
+                        ? styles.active
+                        : styles.noactive
+                    }
+                  />
+                  <Text
+                    style={
+                      detail[0].status === 'Online'
+                        ? styles.txtBlue
+                        : styles.txtGray
+                    }>
+                    {detail[0].status}
+                  </Text>
+                </View>
               </View>
             </View>
-            <View style={styles.status}>
-              <View
-                style={
-                  detail[0].status === 'Online'
-                    ? styles.active
-                    : styles.noactive
-                }
+            <View style={styles.fitur}>
+              <Text style={styles.name}>Qty</Text>
+              <View style={styles.areaFitur}>
+                {qty.map((qty, index) => {
+                  return <FeatureDate key={index} data={qty} />;
+                })}
+              </View>
+              <TextInput
+                placeholder="Udah tau jumlahnya ? --- Kg/pcs"
+                style={styles.txtInput}
+                keyboardType={'numeric'}
               />
-              <Text
-                style={
-                  detail[0].status === 'Online'
-                    ? styles.txtBlue
-                    : styles.txtGray
-                }>
-                {detail[0].status}
-              </Text>
             </View>
-          </View>
-        </View>
-        <View style={styles.fitur}>
-          <Text style={styles.name}>Qty</Text>
-          <View style={styles.areaFitur}>
-            <Picker
-              selectedValue={idFeature}
-              onValueChange={(itemValue, itemIndex) => setId(itemValue)}>
-              <Picker.item label=".." value="" />
-              {qty.map((qty, index) => {
-                return (
-                  <Picker.Item
-                    key={index}
-                    label={qty.feature}
-                    value={qty.id_feature}
-                  />
-                );
-              })}
-            </Picker>
-          </View>
-          <TextInput
-            placeholder="Udah tau beratnya ? --- Kg"
-            style={styles.txtInput}
-            keyboardType={'numeric'}
-          />
-        </View>
 
-        {/* method */}
-        <View style={styles.fitur}>
-          <Text style={styles.name}>Metode</Text>
-          <View style={styles.areaFitur}>
-            <View style={styles.contentFitur}>
-              <Text style={[styles.textFitur, styles.select]}>
-                Antar Jemput
-              </Text>
+            {/* method */}
+            <View style={styles.fitur}>
+              <Text style={styles.name}>Metode</Text>
+              <View style={styles.areaFitur}>
+                {metode.map((metod, index) => {
+                  return <FeatureDate key={index} data={metod} />;
+                })}
+              </View>
             </View>
-            <View style={styles.contentFitur}>
-              <Text style={styles.textFitur}>Antar</Text>
+            <View style={styles.fitur}>
+              <Text style={styles.name}>Estmasi</Text>
+              <View style={styles.areaFitur}>
+                {estimasi.map((est, index) => {
+                  return <FeatureDate key={index} data={est} />;
+                })}
+              </View>
             </View>
-            <View style={styles.contentFitur}>
-              <Text style={styles.textFitur}>Jemput</Text>
+
+            <View style={styles.footer}>
+              <TouchableOpacity style={styles.btn} onPress={handleorder}>
+                <Text style={styles.txtBtn}>Oke</Text>
+              </TouchableOpacity>
             </View>
-          </View>
-        </View>
-        <View style={styles.fitur}>
-          <Text style={styles.name}>Estmasi</Text>
-          <View style={styles.areaFitur}>
-            <View style={styles.contentFitur}>
-              <Text style={styles.textFitur}>Express</Text>
-            </View>
-            <View style={styles.contentFitur}>
-              <Text style={[styles.textFitur, styles.select]}>Biasa</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.footer}>
-          <View style={styles.btn}>
-            <Text style={styles.txtBtn}>Oke</Text>
-          </View>
-          <View style={styles.btn}>
-            <Text style={styles.txtBtn}>Males</Text>
-          </View>
-        </View>
+          </>
+        )}
       </ScrollView>
     </>
   );
@@ -282,3 +304,40 @@ const styles = StyleSheet.create({
   },
 });
 export default DetailLaundry;
+
+export const FeatureDate = props => {
+  const [load, setLoad] = useState(true);
+  const [warna, setwarna] = useState(false);
+  const [data, setName] = useState('');
+
+  useEffect(() => {
+    setTimeout(() => {
+      setName(props.data);
+      // console.warn(props.data.feature);
+      setLoad(false);
+    }, 1000);
+  }, []);
+
+  const sewarna = () => {
+    warna ? setwarna(false) : setwarna(true);
+  };
+
+  return (
+    <>
+      {load ? (
+        <ActivityIndicator size="small" color="#285bd4" />
+      ) : (
+        <View style={styles.contentFitur}>
+          <TouchableOpacity onPress={() => sewarna()}>
+            <Text
+              style={
+                warna ? [styles.textFitur, styles.select] : styles.textFitur
+              }>
+              {data.feature} {data.price}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
+  );
+};

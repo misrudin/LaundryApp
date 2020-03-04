@@ -97,6 +97,27 @@ const userReducer = (state = initialValue, action) => {
         datalogin: action.payload.data,
         dataUser: action.payload.data.result,
       };
+    case 'ROLE_PENDING':
+      return {
+        ...state,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'ROLE_REJECTED':
+      return {
+        ...state,
+        isPending: false,
+        isRejected: true,
+        errMsg: action.payload.data,
+      };
+    case 'ROLE_FULFILLED':
+      return {
+        ...state,
+        isPending: false,
+        isFulfilled: true,
+        dataUser: action.payload.data.result,
+      };
     default:
       return state;
   }

@@ -21,6 +21,8 @@ const Acount = props => {
   // const {dataUser} = useSelector(state => state.user);
   const dispatch = useDispatch();
   const [dataUser, setData] = useState([]);
+  const [userrole, setRole] = useState([]);
+  const [userid, setId] = useState([]);
 
   const clearToken = async () => {
     await AsyncStorage.removeItem('Token');
@@ -55,10 +57,15 @@ const Acount = props => {
   const getToken = async () => {
     await AsyncStorage.getItem('id', (err, id) => {
       getuser(id);
+      setId(id);
+    });
+    await AsyncStorage.getItem('role', (err, role) => {
+      setRole(role);
     });
   };
 
   useEffect(() => {
+    getToken();
     const _unsubscribe = props.navigation.addListener('focus', () => {
       getToken();
     });
@@ -96,12 +103,16 @@ const Acount = props => {
             <Text style={styles.text}>Change Password</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
           </View>
-          <TouchableOpacity
-            style={styles.subContent}
-            onPress={() => props.navigation.navigate('Open')}>
-            <Text style={styles.text}>Daftar Laundry</Text>
-            <Icon name="chevron-right" size={20} color="#ddd" />
-          </TouchableOpacity>
+          {userrole === '1' ? (
+            <TouchableOpacity
+              style={styles.subContent}
+              onPress={() =>
+                props.navigation.navigate('Open', {id_user: userid})
+              }>
+              <Text style={styles.text}>Daftar Laundry</Text>
+              <Icon name="chevron-right" size={20} color="#ddd" />
+            </TouchableOpacity>
+          ) : null}
           <View style={styles.subContent}>
             <Text style={styles.text}>Tukar Poin</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
