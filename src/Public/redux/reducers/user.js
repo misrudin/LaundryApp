@@ -53,10 +53,49 @@ const userReducer = (state = initialValue, action) => {
         datalogin: action.payload.data,
         token: action.payload.data.token,
       };
-    case 'TOKEN':
+    case 'TOKEN_PENDING':
       return {
         ...state,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'TOKEN_REJECTED':
+      return {
+        ...state,
+        isPending: false,
+        isRejected: true,
+        errMsg: action.payload.data,
+      };
+    case 'TOKEN_FULFILLED':
+      return {
+        ...state,
+        isPending: false,
+        isFulfilled: true,
+        datalogin: action.payload.data,
         token: action.payload,
+      };
+    case 'ID_PENDING':
+      return {
+        ...state,
+        isPending: true,
+        isRejected: false,
+        isFulfilled: false,
+      };
+    case 'ID_REJECTED':
+      return {
+        ...state,
+        isPending: false,
+        isRejected: true,
+        errMsg: action.payload.data,
+      };
+    case 'ID_FULFILLED':
+      return {
+        ...state,
+        isPending: false,
+        isFulfilled: true,
+        datalogin: action.payload.data,
+        dataUser: action.payload.data.result,
       };
     default:
       return state;

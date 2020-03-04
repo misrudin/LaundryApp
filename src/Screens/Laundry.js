@@ -63,6 +63,7 @@ class Laundry extends Component {
 
   showDetail = data => {
     this.props.navigation.navigate('DetailLaundry', {data});
+    // console.warn(data.id);
   };
 
   render() {

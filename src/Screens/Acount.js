@@ -10,16 +10,22 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-community/async-storage';
-const jwtDecode = require('jwt-decode');
-import {useSelector} from 'react-redux';
+// const jwtDecode = require('jwt-decode');
+import {useDispatch, useSelector} from 'react-redux';
+import axios from 'axios';
+import {Link} from '../Public/env';
+
+const URL = Link();
 
 const Acount = props => {
-  const {token} = useSelector(state => state.user);
-  const [data, setData] = useState('');
+  // const {dataUser} = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  const [dataUser, setData] = useState([]);
 
   const clearToken = async () => {
     await AsyncStorage.removeItem('Token');
-    await props.navigation.navigate('Login');
+    await AsyncStorage.removeItem('id');
+    await props.navigation.navigate('Splash');
   };
 
   const logout = () => {
@@ -37,33 +43,50 @@ const Acount = props => {
     );
   };
 
-  useEffect(() => {
-    getToken();
-  }, []);
-
-  const getToken = () => {
-    const decoded = jwtDecode(token);
-    setData(decoded);
-    console.warn(decoded);
+  const getuser = async id => {
+    await axios
+      .get(URL + `user?id=${id}`)
+      .then(res => {
+        setData(res.data.result[0]);
+      })
+      .catch(err => console.log(err));
   };
+
+  const getToken = async () => {
+    await AsyncStorage.getItem('id', (err, id) => {
+      getuser(id);
+    });
+  };
+
+  useEffect(() => {
+    const _unsubscribe = props.navigation.addListener('focus', () => {
+      getToken();
+    });
+  }, []);
 
   return (
     <>
       <ScrollView style={{backgroundColor: '#fff'}}>
         <View style={styles.container}>
           <View style={styles.profil}>
-            <View style={styles.imgRound}>
-              <Image
-                source={require('../Assets/Img/1.jpg')}
-                style={styles.imgProfil}
-              />
-            </View>
-            <View style={styles.nameArea}>
-              <Text style={styles.name}>Profile Namenya Panjang</Text>
-            </View>
-            <Text style={[styles.address, styles.all]}>Address</Text>
-            <Text style={[styles.phone, styles.all]}>082257313997</Text>
-            <Text style={[styles.point, styles.all]}>50</Text>
+            {dataUser ? (
+              <>
+                <View style={styles.imgRound}>
+                  <Image
+                    source={{uri: dataUser.image}}
+                    style={styles.imgProfil}
+                  />
+                </View>
+                <View style={styles.nameArea}>
+                  <Text style={styles.name}>{dataUser.username}</Text>
+                </View>
+                <Text style={[styles.address, styles.all]}>
+                  {dataUser.address}
+                </Text>
+                <Text style={[styles.phone, styles.all]}>{dataUser.phone}</Text>
+                <Text style={[styles.point, styles.all]}>{dataUser.point}</Text>
+              </>
+            ) : null}
           </View>
           <View style={styles.content}>
             <Text style={styles.text}>Change Profile</Text>
@@ -102,6 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     backgroundColor: '#fff',
+    paddingBottom: 40,
   },
   profil: {
     backgroundColor: '#fff',

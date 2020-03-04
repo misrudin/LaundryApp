@@ -1,38 +1,45 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, StatusBar, ImageBackground} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {connect} from 'react-redux';
 import {savetoken} from '../Public/redux/actions/user';
+import {useSelector} from 'react-redux';
 
 class Splash extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataToken: '',
+      userrole: '',
     };
   }
   getToken = async () => {
     await AsyncStorage.getItem('Token', (err, token) => {
-      this.setState(
-        {
-          dataToken: token,
-        },
-        () => {
-          this.props.dispatch(savetoken(this.state.dataToken));
-        },
-      );
+      this.setState({
+        dataToken: token,
+      });
+    });
+    await AsyncStorage.getItem('role', (err, role) => {
+      this.setState({
+        userrole: role,
+      });
     });
   };
 
   componentDidMount() {
-    this.getToken();
-    setTimeout(() => {
-      if (this.state.dataToken) {
-        this.props.navigation.navigate('User');
-      } else {
-        this.props.navigation.navigate('Login');
-      }
-    }, 2000);
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      this.getToken();
+      setTimeout(() => {
+        if (this.state.dataToken) {
+          if (this.state.userrole === '1') {
+            this.props.navigation.navigate('User');
+          } else {
+            this.props.navigation.navigate('Mitra');
+          }
+        } else {
+          this.props.navigation.navigate('Login');
+        }
+      }, 1000);
+    });
   }
 
   render() {
@@ -80,10 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({user}) => {
-  return {
-    user,
-  };
-};
-
-export default connect(mapStateToProps)(Splash);
+export default Splash;

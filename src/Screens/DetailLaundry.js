@@ -11,29 +11,49 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useSelector, useDispatch} from 'react-redux';
+import {getfeature, getDetail} from '../Public/redux/actions/laundry';
 
 const DetailLaundry = props => {
-  const [detail, setDetail] = useState([]);
+  const dispatch = useDispatch();
+  const {feature, detail} = useSelector(state => state.laundry);
+  const [idFeature, setId] = useState('');
+
+  const getData = async id => {
+    await dispatch(getDetail(id));
+    await dispatch(getfeature(id));
+  };
+
   useEffect(() => {
     const data = props.route.params.data;
-    setDetail(data);
+    getData(data.id);
+  }, []);
+
+  let estimasi = feature.filter(data => {
+    return data.category === 3;
   });
+  let qty = feature.filter(data => {
+    return data.category === 2;
+  });
+  let metode = feature.filter(data => {
+    return data.category === 1;
+  });
+
   return (
     <>
       <ScrollView style={{backgroundColor: '#dedede'}}>
         <View style={styles.container}>
           <View style={styles.imgArea}>
-            <Image source={{uri: detail.image}} style={styles.imgLaundry} />
+            <Image source={{uri: detail[0].image}} style={styles.imgLaundry} />
           </View>
           <View style={styles.content}>
             <View style={styles.detail}>
               <TouchableOpacity onPress={() => alert('oke')}>
                 <Text style={styles.name}>
-                  {detail.name} ({detail.phone}){' '}
+                  {detail[0].name} ({detail[0].phone}){' '}
                   <Icon name="phone" color="#285bd4" />
                 </Text>
               </TouchableOpacity>
-              <Text style={styles.txtGray}>{detail.address}</Text>
+              <Text style={styles.txtGray}>{detail[0].address}</Text>
               <View style={styles.like}>
                 <Icon
                   name="thumbs-up"
@@ -41,20 +61,24 @@ const DetailLaundry = props => {
                   size={20}
                   style={{marginRight: 5}}
                 />
-                <Text style={styles.txtBlue}>{detail.rating}</Text>
+                <Text style={styles.txtBlue}>{detail[0].rating}</Text>
               </View>
             </View>
             <View style={styles.status}>
               <View
                 style={
-                  detail.status === 'Online' ? styles.active : styles.noactive
+                  detail[0].status === 'Online'
+                    ? styles.active
+                    : styles.noactive
                 }
               />
               <Text
                 style={
-                  detail.status === 'Online' ? styles.txtBlue : styles.txtGray
+                  detail[0].status === 'Online'
+                    ? styles.txtBlue
+                    : styles.txtGray
                 }>
-                {detail.status}
+                {detail[0].status}
               </Text>
             </View>
           </View>
@@ -63,13 +87,18 @@ const DetailLaundry = props => {
           <Text style={styles.name}>Qty</Text>
           <View style={styles.areaFitur}>
             <Picker
-              // selectedValue={this.state.language}
-              style={{height: 50, width: 100}}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({language: itemValue})
-              }>
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
+              selectedValue={idFeature}
+              onValueChange={(itemValue, itemIndex) => setId(itemValue)}>
+              <Picker.item label=".." value="" />
+              {qty.map((qty, index) => {
+                return (
+                  <Picker.Item
+                    key={index}
+                    label={qty.feature}
+                    value={qty.id_feature}
+                  />
+                );
+              })}
             </Picker>
           </View>
           <TextInput

@@ -3,15 +3,15 @@ import {Link} from '../../env';
 
 const URL = Link();
 
-export const getAllData = (iduser, status) => {
+export const getDataOrders = (id, status) => {
   return {
-    type: 'GET_DATA',
-    payload: axios.get(URL + `orders?id=1&status=0`),
+    type: 'GET_ORDERS',
+    payload: axios.get(URL + `orders?id=${id}&status=${status}`),
   };
 };
-export const getDetail = (id, status) => {
+export const getDetailOrders = id => {
   return {
-    type: 'DETAIL',
-    payload: axios.get(URL + `orders?id${id}&status=${status}`),
+    type: 'DETAIL_ORDERS',
+    payload: axios.get(URL + `detail?id=${id}`),
   };
 };

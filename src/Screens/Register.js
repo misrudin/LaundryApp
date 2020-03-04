@@ -8,7 +8,9 @@ import {
   StatusBar,
   ActivityIndicator,
   Alert,
+  Image,
 } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {register} from '../Public/redux/actions/user';
@@ -20,8 +22,33 @@ const Register = props => {
   const [username, setUsername] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+  const [image, setImage] = useState('');
   const dispatch = useDispatch();
   const {isPending} = useSelector(state => state.user);
+
+  const showImage = () => {
+    const options = {
+      title: 'Add product image',
+      mediaType: 'photo',
+      maxWidth: 1024,
+      maxHeight: 1024,
+      noData: true,
+      cropping: true,
+      storageOptions: {
+        skipBackup: true,
+        path: 'posApp',
+      },
+    };
+    ImagePicker.showImagePicker(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        setImage(response);
+      }
+    });
+  };
 
   useEffect(() => {});
 
@@ -36,14 +63,18 @@ const Register = props => {
   };
 
   const signup = async () => {
-    const data = {
-      email,
-      password,
-      username,
-      address,
-      phone,
-    };
-    await dispatch(register(data));
+    let fd = new FormData();
+    fd.append('email', email);
+    fd.append('password', password);
+    fd.append('username', username);
+    fd.append('address', address);
+    fd.append('phone', phone);
+    fd.append('image', {
+      uri: image.uri,
+      name: image.fileName,
+      type: image.type,
+    });
+    await dispatch(register(fd));
     Alert.alert(
       'Congratulation',
       'Succes Register, please Login!',
@@ -70,23 +101,34 @@ const Register = props => {
               create your <Text style={styles.bgBlue}>account!</Text>
             </Text>
           </View>
-
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Profil Name"
-              onChangeText={e => setUsername(e)}
-              value={username}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Email"
-              keyboardType={'email-address'}
-              onChangeText={e => setEmail(e)}
-              value={email}
-            />
+          <View style={styles.containTop}>
+            <View style={styles.left}>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Profil Name"
+                  onChangeText={e => setUsername(e)}
+                  value={username}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Email"
+                  keyboardType={'email-address'}
+                  onChangeText={e => setEmail(e)}
+                  value={email}
+                />
+              </View>
+            </View>
+            <View style={styles.right}>
+              <View style={styles.inputContainer}>
+                <TouchableOpacity onPress={showImage}>
+                  <Image source={{uri: image.uri}} style={styles.img} />
+                </TouchableOpacity>
+                <Text style={styles.txtAddimage}>Add Image</Text>
+              </View>
+            </View>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -207,6 +249,26 @@ const styles = StyleSheet.create({
     color: values.primaryColor,
     fontSize: 16,
     marginTop: 20,
+  },
+  img: {
+    width: 100,
+    height: 100,
+    backgroundColor: '#fff',
+    borderRadius: 4,
+  },
+  containTop: {
+    flexDirection: 'row',
+  },
+  left: {
+    flex: 1,
+    marginRight: 10,
+  },
+  txtAddimage: {
+    position: 'absolute',
+    color: '#ddd',
+  },
+  right: {
+    justifyContent: 'center',
   },
 });
 

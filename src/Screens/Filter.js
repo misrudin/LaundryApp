@@ -50,14 +50,6 @@ class Filter extends Component {
     }
   };
 
-  // componentDidMount() {
-  //   this._unsubscribe = this.props.navigation.addListener('focus', () => {
-  //     this.setState({
-  //       laundry: [],
-  //     });
-  //   });
-  // }
-
   render() {
     return (
       <View style={styles.bgWhite}>
@@ -72,6 +64,7 @@ class Filter extends Component {
                 placeholder="I want to search ..."
                 style={styles.search}
                 onChangeText={q => this.search(q)}
+                autoFocus
               />
               <Icon name="search" size={20} color="#777" style={styles.icon} />
             </View>

@@ -1,55 +1,55 @@
 const initialValue = {
-  data: [],
+  dataOrders: [],
   errMsg: [],
   isPending: false,
   isRejected: false,
   isFulfilled: false,
-  detail: [],
+  detailOrders: [],
 };
 
 const ordersReducer = (state = initialValue, action) => {
   switch (action.type) {
-    case 'GET_DATA_PENDING':
+    case 'GET_ORDERS_PENDING':
       return {
         ...state,
         isPending: true,
         isRejected: false,
         isFulfilled: false,
       };
-    case 'GET_DATA_REJECTED':
+    case 'GET_ORDERS_REJECTED':
       return {
         ...state,
         isPending: false,
         isRejected: true,
         errMsg: action.payload.data,
       };
-    case 'GET_DATA_FULFILLED':
+    case 'GET_ORDERS_FULFILLED':
       return {
         ...state,
         isPending: false,
         isFulfilled: true,
-        data: action.payload.data.result,
+        dataOrders: action.payload.data.result,
       };
-    case 'DETAIL_PENDING':
+    case 'DETAIL_ORDERS_PENDING':
       return {
         ...state,
         isPending: true,
         isRejected: false,
         isFulfilled: false,
       };
-    case 'DETAIL_REJECTED':
+    case 'DETAIL_ORDERS_REJECTED':
       return {
         ...state,
         isPending: false,
         isRejected: true,
         errMsg: action.payload.data,
       };
-    case 'DETAIL_FULFILLED':
+    case 'DETAIL_ORDERS_FULFILLED':
       return {
         ...state,
         isPending: false,
         isFulfilled: true,
-        detail: action.payload.data.result,
+        detailOrders: action.payload.data.result,
       };
 
     default:

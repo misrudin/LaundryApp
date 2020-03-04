@@ -12,11 +12,16 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {login} from '../Public/redux/actions/user';
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
+import {Link} from '../Public/env';
+
+const URL = Link();
 
 const Login = props => {
-  const [message, setMessage] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState(false);
   const dispatch = useDispatch();
   const {isPending, isFulfilled, datalogin} = useSelector(state => state.user);
 
@@ -26,22 +31,18 @@ const Login = props => {
   };
 
   useEffect(() => {
-    if (isFulfilled) {
-      if (!datalogin.token) {
-        setMessage(datalogin.message);
-      } else {
-        setMessage('');
-        saveToken(datalogin.token);
-        props.navigation.navigate('User');
-        clear();
-      }
-    }
-  });
+    setMsg('');
+  }, []);
 
   const saveToken = async data => {
     try {
-      const token = data;
+      const token = data.token;
+      const id = data.id.toString();
+      const role = data.role.toString();
+
       await AsyncStorage.setItem('Token', token);
+      await AsyncStorage.setItem('id', id);
+      await AsyncStorage.setItem('role', role);
     } catch (error) {
       console.warn(error.message);
     }
@@ -52,7 +53,26 @@ const Login = props => {
       email,
       password,
     };
-    await dispatch(login(data));
+    if (email && password) {
+      setLoading(true);
+      axios.post(URL + 'user/login', data).then(res => {
+        if (!res.data.token) {
+          setMsg(res.data.msg);
+          setLoading(false);
+        } else {
+          saveToken(res.data);
+          setLoading(false);
+          clear();
+          if (res.data.role === '1') {
+            props.navigation.navigate('User');
+          } else {
+            props.navigation.navigate('Mitra');
+          }
+        }
+      });
+    } else {
+      setMsg('Enter Username and Password !');
+    }
   };
   return (
     <>
@@ -72,14 +92,12 @@ const Login = props => {
             <Text style={styles.txtTop}>Hello</Text>
             <Text style={styles.txtBotom}>clean and clear!</Text>
           </View>
-          <Text style={styles.txtDanger}>{message}</Text>
+          <Text style={styles.txtDanger}>{msg}</Text>
           <View style={styles.inputContainer}>
             <TextInput
               style={[
                 styles.textInput,
-                message !== 'Invalid Password!!' && message !== ''
-                  ? styles.txtErr
-                  : null,
+                msg !== 'Password Wrong!' && msg !== '' ? styles.txtErr : null,
               ]}
               placeholder="Email"
               keyboardType={'email-address'}
@@ -93,9 +111,7 @@ const Login = props => {
               secureTextEntry={true}
               style={[
                 styles.textInput,
-                message === 'Invalid Password!!' && message !== ''
-                  ? styles.txtErr
-                  : null,
+                msg === 'Password Wrong!' && msg !== '' ? styles.txtErr : null,
               ]}
               placeholder="Password"
               onChangeText={e => setPassword(e)}
@@ -106,7 +122,7 @@ const Login = props => {
 
           <View style={styles.botom}>
             <TouchableOpacity onPress={() => signin()}>
-              {isPending ? (
+              {loading ? (
                 <ActivityIndicator size="large" color="#285bd4" />
               ) : (
                 <Text style={styles.btn}>SIGN IN</Text>

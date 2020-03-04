@@ -3,16 +3,22 @@ import {Link} from '../../env';
 
 const URL = Link();
 
-export const register = data => {
+export const register = fd => {
   return {
     type: 'REGISTER',
-    payload: axios.post(URL + 'user/register', data),
+    payload: axios.post(URL + 'user/register', fd),
   };
 };
 export const login = data => {
   return {
     type: 'LOGIN',
     payload: axios.post(URL + 'user/login', data),
+  };
+};
+export const getByidUser = id => {
+  return {
+    type: 'ID',
+    payload: axios.get(URL + `user?id=${id}`),
   };
 };
 export const savetoken = token => {
