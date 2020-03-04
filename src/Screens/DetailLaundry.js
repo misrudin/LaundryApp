@@ -30,7 +30,6 @@ const DetailLaundry = props => {
   const [loading, setLoading] = useState(true);
 
   const getData = async id => {
-    console.log('ini id', id);
     await axios
       .get(URL + `laundry/join?id=${id}`)
       .then(data => {
@@ -48,8 +47,6 @@ const DetailLaundry = props => {
   };
 
   useEffect(() => {
-    console.log('ini detail', detail);
-    console.log('ini loading', loading);
     const data = props.route.params.data;
     getData(data.id);
   }, [detail, getData, loading, props.route.params.data]);
