@@ -16,13 +16,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {register} from '../Public/redux/actions/user';
 
 const Register = props => {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeat, setRepeat] = useState('');
-  const [username, setUsername] = useState('');
-  const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
   const [image, setImage] = useState('');
+  const [msg, setMsg] = useState('');
   const dispatch = useDispatch();
   const {isPending} = useSelector(state => state.user);
 
@@ -63,6 +64,7 @@ const Register = props => {
   };
 
   const signup = async () => {
+    iterateRegex();
     let fd = new FormData();
     fd.append('email', email);
     fd.append('password', password);
@@ -82,13 +84,78 @@ const Register = props => {
       {cancelable: false},
     );
   };
+
+  const iterateRegex = () => {
+    const usernameRegex = /\s/;
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const phoneRegex = /08\d/;
+    if (usernameRegex.test(username)) {
+      setMsg('Username cannot contain space!');
+    } else if (repeat !== password) {
+      setMsg('Password does not match');
+    } else if (email !== '' && !emailRegex.test(email)) {
+      setMsg('Please enter a valid email!');
+    } else if (
+      password.length !== 0 &&
+      (password.length < 8 || password.length > 12)
+    ) {
+      setMsg('Password length is 8 - 12 characters!');
+    } else if (phone !== '' && !phoneRegex.test(phone)) {
+      setMsg('Phone number start with 08');
+    } else {
+      setMsg('');
+    }
+  };
+
+  const regexTest = key => {
+    switch (key) {
+      case 'username':
+        const usernameRegex = /\s/;
+        if (usernameRegex.test(username)) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      case 'email':
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (email.length !== 0 && !emailRegex.test(email)) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      case 'password':
+        if (
+          password.length !== 0 &&
+          (password.length < 8 || password.length > 12)
+        ) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      case 'rePassword':
+        if (repeat.length !== 0 && repeat !== password) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      case 'phone':
+        const phoneRegex = /08\d/;
+        if (phone !== '' && !phoneRegex.test(phone)) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      default:
+        null;
+    }
+  };
   return (
     <>
       <View style={styles.top} />
       <StatusBar
         barStyle="light-content"
         hidden={false}
-        backgroundColor="#362dae"
+        backgroundColor={values.primaryColor}
         translucent={false}
         networkActivityIndicatorVisible={true}
       />
@@ -105,7 +172,7 @@ const Register = props => {
             <View style={styles.left}>
               <View style={styles.inputContainer}>
                 <TextInput
-                  style={styles.textInput}
+                  style={regexTest('username')}
                   placeholder="Profil Name"
                   onChangeText={e => setUsername(e)}
                   value={username}
@@ -113,7 +180,7 @@ const Register = props => {
               </View>
               <View style={styles.inputContainer}>
                 <TextInput
-                  style={styles.textInput}
+                  style={regexTest('email')}
                   placeholder="Email"
                   keyboardType={'email-address'}
                   onChangeText={e => setEmail(e)}
@@ -133,7 +200,7 @@ const Register = props => {
           <View style={styles.inputContainer}>
             <TextInput
               secureTextEntry={true}
-              style={styles.textInput}
+              style={regexTest('password')}
               placeholder="Password"
               onChangeText={e => setPassword(e)}
               value={password}
@@ -142,7 +209,7 @@ const Register = props => {
           <View style={styles.inputContainer}>
             <TextInput
               secureTextEntry={true}
-              style={styles.textInput}
+              style={regexTest('rePassword')}
               placeholder="Repeat Password"
               onChangeText={e => setRepeat(e)}
               value={repeat}
@@ -150,7 +217,7 @@ const Register = props => {
           </View>
           <View style={styles.inputContainer}>
             <TextInput
-              style={styles.textInput}
+              style={regexTest('phone')}
               placeholder="Phone Number"
               keyboardType={'number-pad'}
               onChangeText={e => setPhone(e)}
@@ -166,6 +233,14 @@ const Register = props => {
               value={address}
             />
           </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 8,
+            }}>
+            <Text style={{color: values.fail, fontSize: 16}}>{msg}</Text>
+          </View>
           <View style={styles.botom}>
             <TouchableOpacity onPress={() => signup()}>
               {isPending ? (
@@ -176,7 +251,10 @@ const Register = props => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => props.navigation.navigate('Login')}>
-              <Text style={styles.have}>Arealy have an account ?</Text>
+              <Text style={styles.have}>
+                Already have an account?{' '}
+                <Text style={{color: values.primaryColor}}>SIGN IN</Text>
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -195,6 +273,10 @@ const values = {
 };
 
 const styles = StyleSheet.create({
+  regexCatch: {
+    borderWidth: 1,
+    borderColor: values.fail,
+  },
   textInput: {
     backgroundColor: values.form,
     color: '#888',
@@ -228,25 +310,24 @@ const styles = StyleSheet.create({
   txtBotom: {fontSize: 24, color: values.light},
   txtTop: {fontSize: 32, color: values.light},
   welcomeText: {
-    paddingVertical: 80,
     alignItems: 'flex-end',
   },
   botom: {
-    marginTop: 40,
+    marginTop: 16,
     alignItems: 'center',
   },
   btn: {
-    paddingVertical: 15,
-    paddingHorizontal: 90,
+    fontSize: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 64,
     borderRadius: 100,
     textAlignVertical: 'center',
     textAlign: 'center',
     color: values.light,
     backgroundColor: values.primaryColor,
-    fontWeight: 'bold',
   },
   have: {
-    color: values.primaryColor,
+    color: '#888',
     fontSize: 16,
     marginTop: 20,
   },
@@ -257,6 +338,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   containTop: {
+    marginTop: 32,
     flexDirection: 'row',
   },
   left: {

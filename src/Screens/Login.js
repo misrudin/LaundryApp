@@ -89,8 +89,8 @@ const Login = props => {
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.welcomeText}>
-            <Text style={styles.txtTop}>Hello</Text>
-            <Text style={styles.txtBotom}>clean and clear!</Text>
+            <Text style={styles.txtTop}>Hello,</Text>
+            <Text style={styles.txtBotom}>welcome back!</Text>
           </View>
           <Text style={styles.txtDanger}>{msg}</Text>
           <View style={styles.inputContainer}>
@@ -131,7 +131,7 @@ const Login = props => {
             <TouchableOpacity
               onPress={() => props.navigation.navigate('Register')}>
               <Text style={styles.have}>
-                Not have an account ? <Text style={styles.sign}>SIGN UP</Text>
+                Does not have an account? <Text style={styles.sign}>SIGN UP</Text>
               </Text>
             </TouchableOpacity>
           </View>
@@ -191,20 +191,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btn: {
-    paddingVertical: 15,
-    paddingHorizontal: 90,
+    fontSize: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 64,
     borderRadius: 100,
     textAlignVertical: 'center',
     textAlign: 'center',
     color: values.light,
     backgroundColor: values.primaryColor,
-    fontWeight: 'bold',
     borderWidth: 1,
     borderColor: values.light,
   },
   have: {
     color: '#888',
-    fontSize: 16,
+    fontSize: 14,
     marginTop: 20,
   },
   sign: {
