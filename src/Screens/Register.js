@@ -17,6 +17,7 @@ import {register} from '../Public/redux/actions/user';
 
 const Register = props => {
   const [email, setEmail] = useState('');
+  const [msg, setmsg] = useState('');
   const [password, setPassword] = useState('');
   const [repeat, setRepeat] = useState('');
   const [username, setUsername] = useState('');
@@ -45,7 +46,18 @@ const Register = props => {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        setImage(response);
+        let fileName = response.fileName;
+        let fileSize = response.fileSize;
+        if (/.(jpg|gif|png|jpeg)/g.test(fileName)) {
+          if (fileSize > 102400) {
+            Alert.alert('Image To Large, max 1 Mb!');
+            setImage('');
+          } else {
+            setImage(response);
+          }
+        } else {
+          Alert.alert('Only image allowed!');
+        }
       }
     });
   };
@@ -63,25 +75,73 @@ const Register = props => {
   };
 
   const signup = async () => {
-    let fd = new FormData();
-    fd.append('email', email);
-    fd.append('password', password);
-    fd.append('username', username);
-    fd.append('address', address);
-    fd.append('phone', phone);
-    fd.append('image', {
-      uri: image.uri,
-      name: image.fileName,
-      type: image.type,
-    });
-    await dispatch(register(fd));
-    Alert.alert(
-      'Congratulation',
-      'Succes Register, please Login!',
-      [{text: 'OK', onPress: () => clear()}],
-      {cancelable: false},
-    );
+    if ((email, password, username, address, phone, image)) {
+      let fd = new FormData();
+      fd.append('email', email);
+      fd.append('password', password);
+      fd.append('username', username);
+      fd.append('address', address);
+      fd.append('phone', phone);
+      fd.append('image', {
+        uri: image.uri,
+        name: image.fileName,
+        type: image.type,
+      });
+      await dispatch(register(fd));
+      Alert.alert(
+        'Congratulation',
+        'Succes Register, please Login!',
+        [{text: 'OK', onPress: () => clear()}],
+        {cancelable: false},
+      );
+    } else {
+      Alert.alert('Opss', 'Comlete data!');
+    }
   };
+
+  const regexTest = key => {
+    switch (key) {
+      case 'username':
+        const usernameRegex = /\s/;
+        if (usernameRegex.test(username)) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      case 'PASSWORD':
+        if (
+          password.length !== 0 &&
+          (password.length < 6 || password.length > 12)
+        ) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      case 'repeat':
+        if (repeat !== password) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      case 'email':
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (email !== '' && !emailRegex.test(email)) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      case 'PHONE':
+        const phoneRegex = /08\d/;
+        if (phone !== '' && !phoneRegex.test(phone)) {
+          return [styles.textInput, styles.regexCatch];
+        } else {
+          return [styles.textInput];
+        }
+      default:
+        null;
+    }
+  };
+
   return (
     <>
       <View style={styles.top} />
@@ -105,7 +165,7 @@ const Register = props => {
             <View style={styles.left}>
               <View style={styles.inputContainer}>
                 <TextInput
-                  style={styles.textInput}
+                  style={regexTest('username')}
                   placeholder="Profil Name"
                   onChangeText={e => setUsername(e)}
                   value={username}
@@ -113,10 +173,11 @@ const Register = props => {
               </View>
               <View style={styles.inputContainer}>
                 <TextInput
-                  style={styles.textInput}
+                  style={regexTest('email')}
                   placeholder="Email"
                   keyboardType={'email-address'}
                   onChangeText={e => setEmail(e)}
+                  autoCapitalize="none"
                   value={email}
                 />
               </View>
@@ -133,8 +194,9 @@ const Register = props => {
           <View style={styles.inputContainer}>
             <TextInput
               secureTextEntry={true}
-              style={styles.textInput}
+              style={regexTest('PASSWORD')}
               placeholder="Password"
+              autoCapitalize="none"
               onChangeText={e => setPassword(e)}
               value={password}
             />
@@ -142,15 +204,16 @@ const Register = props => {
           <View style={styles.inputContainer}>
             <TextInput
               secureTextEntry={true}
-              style={styles.textInput}
+              style={regexTest('repeat')}
               placeholder="Repeat Password"
+              autoCapitalize="none"
               onChangeText={e => setRepeat(e)}
               value={repeat}
             />
           </View>
           <View style={styles.inputContainer}>
             <TextInput
-              style={styles.textInput}
+              style={regexTest('PHONE')}
               placeholder="Phone Number"
               keyboardType={'number-pad'}
               onChangeText={e => setPhone(e)}
@@ -203,6 +266,10 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 10,
     paddingVertical: 10,
+  },
+  regexCatch: {
+    borderColor: values.fail,
+    borderWidth: 1,
   },
   container: {
     flex: 1,
