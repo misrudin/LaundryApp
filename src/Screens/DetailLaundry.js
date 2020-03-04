@@ -29,7 +29,6 @@ const DetailLaundry = props => {
   const [loading, setLoading] = useState(true);
 
   const getData = async id => {
-    console.log('ini id', id);
     await axios
       .get(URL + `laundry/join?id=${id}`)
       .then(data => {
