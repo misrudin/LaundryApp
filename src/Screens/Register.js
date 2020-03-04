@@ -42,9 +42,9 @@ const Register = props => {
     };
     ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
-        console.log('User cancelled image picker');
+        console.warn('User cancelled image picker');
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+        console.warn('ImagePicker Error: ', response.error);
       } else {
         setImage(response);
       }
@@ -193,7 +193,7 @@ const Register = props => {
                 <TouchableOpacity onPress={showImage}>
                   <Image source={{uri: image.uri}} style={styles.img} />
                 </TouchableOpacity>
-                <Text style={styles.txtAddimage}>Add Image</Text>
+                <Text style={image!=='' ? [styles.txtAddimage, {opacity: 0}] : styles.txtAddimage}>Add Image</Text>
               </View>
             </View>
           </View>
@@ -328,8 +328,8 @@ const styles = StyleSheet.create({
   },
   have: {
     color: '#888',
-    fontSize: 16,
-    marginTop: 20,
+    fontSize: 14,
+    marginTop: 16,
   },
   img: {
     width: 100,
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
   },
   txtAddimage: {
     position: 'absolute',
-    color: '#ddd',
+    color: '#888',
   },
   right: {
     justifyContent: 'center',
