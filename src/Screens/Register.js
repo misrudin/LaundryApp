@@ -18,7 +18,7 @@ import {register} from '../Public/redux/actions/user';
 const Register = props => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [msg, setmsg] = useState('');
+  // const [msg, setmsg] = useState('');
   const [password, setPassword] = useState('');
   const [repeat, setRepeat] = useState('');
   const [phone, setPhone] = useState('');
@@ -143,7 +143,6 @@ const Register = props => {
     }
   };
 
-=======
     iterateRegex();
     let fd = new FormData();
     fd.append('email', email);
