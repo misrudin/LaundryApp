@@ -62,20 +62,6 @@ const DetailLaundry = props => {
   });
 
   const handleorder = async () => {
-<<<<<<< HEAD
-    // const data = {
-    //   user_id: 1,
-    //   laundry_id: props.route.params.id,
-    //   price: 100,
-    // };
-    // await axios
-    //   .post(URL + `orders`, data)
-    //   .then(res => {
-    //     alert('oke');
-    //   })
-    //   .catch(err => console.log(err));
-=======
->>>>>>> 201a58095438ce9ecbfd548dceef54ea857f24cc
     const data = {
       user_id: 1,
       laundry_id: props.route.params.id,
@@ -141,50 +127,57 @@ const DetailLaundry = props => {
                 </View>
               </View>
               <View style={styles.laundryIdentity}>
-                <View style = {styles.idChild}>
-                  <Text style = {styles.idTitle}>Work Hour</Text>
-                  <Text style = {styles.idSub}>09.00-22.00</Text>
+                <View style={styles.idChild}>
+                  <Text style={styles.idTitle}>Work Hour</Text>
+                  <Text style={styles.idSub}>09.00-22.00</Text>
                 </View>
-                <View style = {styles.idChild}>
-                  <Text style = {styles.idTitle}>Min. Weight</Text>
-                  <Text style = {styles.idSub}>2kg</Text>                  
+                <View style={styles.idChild}>
+                  <Text style={styles.idTitle}>Min. Weight</Text>
+                  <Text style={styles.idSub}>2kg</Text>
                 </View>
-                <View style = {styles.idChild}>
-                  <Text style = {styles.idTitle}>Cost</Text>
-                  <Text style = {styles.idSub}>Rp 5000/kg</Text>                  
+                <View style={styles.idChild}>
+                  <Text style={styles.idTitle}>Cost</Text>
+                  <Text style={styles.idSub}>Rp 5000/kg</Text>
                 </View>
               </View>
-              <View style = {styles.formOrder}>
-                <View style = {styles.formTitle}>
-                    <Text style = {{fontWeight: 'bold', fontSize: 18}}>Place Your Order</Text>
+              <View style={styles.formOrder}>
+                <View style={styles.formTitle}>
+                  <Text style={{fontWeight: 'bold', fontSize: 18}}>
+                    Place Your Order
+                  </Text>
                 </View>
-                <View style = {styles.formGroup}>
-                  <View style = {styles.label}>
+                <View style={styles.formGroup}>
+                  <View style={styles.label}>
                     <Text>Quantity (kg): </Text>
                   </View>
-                  <View style = {styles.formPicker}>
-                    <TextInput placeholder='enter the weight' style = {{borderBottomWidth: 1, width: '90%', height: '80%'}}/>
+                  <View style={styles.formPicker}>
+                    <TextInput
+                      placeholder="enter the weight"
+                      style={{
+                        borderBottomWidth: 1,
+                        width: '90%',
+                        height: '80%',
+                      }}
+                    />
                   </View>
                 </View>
-                <View style = {styles.formGroup}>
-                  <View style = {styles.label}>
-                  <Text>Delivery:</Text>
+                <View style={styles.formGroup}>
+                  <View style={styles.label}>
+                    <Text>Delivery:</Text>
                   </View>
-                  <View style = {styles.formPicker}>
-                    <Picker 
-                      style={styles.pickerInput}>
+                  <View style={styles.formPicker}>
+                    <Picker style={styles.pickerInput}>
                       <Picker.Item label="None" value="java" />
                       <Picker.Item label="Antar Jemput" value="js" />
                     </Picker>
                   </View>
                 </View>
-                <View style = {styles.formGroup}>
-                  <View style = {styles.label}>
-                  <Text>Estimasi</Text>
+                <View style={styles.formGroup}>
+                  <View style={styles.label}>
+                    <Text>Estimasi</Text>
                   </View>
-                  <View style = {styles.formPicker}>
-                    <Picker 
-                      style={styles.pickerInput}>
+                  <View style={styles.formPicker}>
+                    <Picker style={styles.pickerInput}>
                       <Picker.Item label="Satuan" value="java" />
                       <Picker.Item label="Kiloan" value="js" />
                     </Picker>
@@ -227,8 +220,12 @@ const DetailLaundry = props => {
               <TouchableOpacity style={styles.btn} onPress={handleorder}>
                 <Text style={styles.txtBtn}>ORDER NOW</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cancelBtn} onPress={()=>props.navigation.navigate('Home')}>
-                <Text style = {{color: values.primaryColor, fontSize: 16}}>Cancel</Text>
+              <TouchableOpacity
+                style={styles.cancelBtn}
+                onPress={() => props.navigation.navigate('Home')}>
+                <Text style={{color: values.primaryColor, fontSize: 16}}>
+                  Cancel
+                </Text>
               </TouchableOpacity>
             </View>
           </>
@@ -248,41 +245,41 @@ const values = {
 };
 
 const styles = StyleSheet.create({
-  cancelBtn:{
+  cancelBtn: {
     paddingHorizontal: 30,
     paddingVertical: 16,
     borderRadius: 100,
   },
-  idSub:{
+  idSub: {
     color: '#888',
   },
-  idTitle:{
+  idTitle: {
     fontWeight: 'bold',
-    paddingBottom: 4
+    paddingBottom: 4,
   },
-  idChild:{
+  idChild: {
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
     width: '30%',
   },
-  laundryIdentity:{
+  laundryIdentity: {
     flexDirection: 'row',
-    justifyContent:'space-around',
+    justifyContent: 'space-around',
     width: '100%',
     height: 72,
   },
-  pickerInput:{
+  pickerInput: {
     width: '90%',
-    height: 50
+    height: 50,
   },
-  formTitle:{
+  formTitle: {
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
-    width: '100%'
+    width: '100%',
   },
-  formGroup:{
+  formGroup: {
     flexDirection: 'row',
     width: '100%',
     height: 50,
@@ -291,14 +288,14 @@ const styles = StyleSheet.create({
   label: {
     paddingLeft: 10,
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
   },
-  formPicker:{
+  formPicker: {
     justifyContent: 'center',
     height: 50,
-    flex: 2.5
+    flex: 2.5,
   },
-  formOrder:{
+  formOrder: {
     alignItems: 'center',
     width: '100%',
   },
@@ -416,7 +413,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   btn: {
     backgroundColor: values.primaryColor,

@@ -76,7 +76,6 @@ const Register = props => {
   };
 
   const signup = async () => {
-<<<<<<< HEAD
     if ((email, password, username, address, phone, image)) {
       let fd = new FormData();
       fd.append('email', email);
@@ -230,7 +229,7 @@ const Register = props => {
         null;
     }
   };
->>>>>>> 201a58095438ce9ecbfd548dceef54ea857f24cc
+
   return (
     <>
       <View style={styles.top} />
@@ -283,11 +282,7 @@ const Register = props => {
           <View style={styles.inputContainer}>
             <TextInput
               secureTextEntry={true}
-<<<<<<< HEAD
-              style={regexTest('PASSWORD')}
-=======
               style={regexTest('password')}
->>>>>>> 201a58095438ce9ecbfd548dceef54ea857f24cc
               placeholder="Password"
               autoCapitalize="none"
               onChangeText={e => setPassword(e)}
@@ -297,11 +292,7 @@ const Register = props => {
           <View style={styles.inputContainer}>
             <TextInput
               secureTextEntry={true}
-<<<<<<< HEAD
-              style={regexTest('repeat')}
-=======
               style={regexTest('rePassword')}
->>>>>>> 201a58095438ce9ecbfd548dceef54ea857f24cc
               placeholder="Repeat Password"
               autoCapitalize="none"
               onChangeText={e => setRepeat(e)}
@@ -310,11 +301,7 @@ const Register = props => {
           </View>
           <View style={styles.inputContainer}>
             <TextInput
-<<<<<<< HEAD
-              style={regexTest('PHONE')}
-=======
               style={regexTest('phone')}
->>>>>>> 201a58095438ce9ecbfd548dceef54ea857f24cc
               placeholder="Phone Number"
               keyboardType={'number-pad'}
               onChangeText={e => setPhone(e)}
