@@ -31,14 +31,14 @@ const Acount = props => {
 
   const logout = () => {
     Alert.alert(
-      'Sure',
+      'Confirm Logout',
       'Do you want to logout?',
       [
         {
           text: 'Cancel',
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => clearToken()},
+        {text: 'Yes', onPress: () => clearToken()},
       ],
       {cancelable: false},
     );
@@ -108,16 +108,16 @@ const Acount = props => {
               onPress={() =>
                 props.navigation.navigate('Open', {id_user: userid})
               }>
-              <Text style={styles.text}>Daftar Laundry</Text>
+              <Text style={styles.text}>List Laundry</Text>
               <Icon name="chevron-right" size={20} color="#ddd" />
             </TouchableOpacity>
           ) : null}
           <View style={styles.subContent}>
-            <Text style={styles.text}>Tukar Poin</Text>
+            <Text style={styles.text}>Point Exchange</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
           </View>
           <View style={styles.subContent}>
-            <Text style={styles.text}>Aktivitas</Text>
+            <Text style={styles.text}>Activity</Text>
             <Icon name="chevron-right" size={20} color="#ddd" />
           </View>
           <TouchableOpacity style={styles.subContent} onPress={() => logout()}>
