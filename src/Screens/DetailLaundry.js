@@ -62,6 +62,7 @@ const DetailLaundry = props => {
   });
 
   const handleorder = async () => {
+<<<<<<< HEAD
     // const data = {
     //   user_id: 1,
     //   laundry_id: props.route.params.id,
@@ -73,6 +74,8 @@ const DetailLaundry = props => {
     //     alert('oke');
     //   })
     //   .catch(err => console.log(err));
+=======
+>>>>>>> 201a58095438ce9ecbfd548dceef54ea857f24cc
     const data = {
       user_id: 1,
       laundry_id: props.route.params.id,
@@ -137,8 +140,59 @@ const DetailLaundry = props => {
                   </Text>
                 </View>
               </View>
+              <View style={styles.laundryIdentity}>
+                <View style = {styles.idChild}>
+                  <Text style = {styles.idTitle}>Work Hour</Text>
+                  <Text style = {styles.idSub}>09.00-22.00</Text>
+                </View>
+                <View style = {styles.idChild}>
+                  <Text style = {styles.idTitle}>Min. Weight</Text>
+                  <Text style = {styles.idSub}>2kg</Text>                  
+                </View>
+                <View style = {styles.idChild}>
+                  <Text style = {styles.idTitle}>Cost</Text>
+                  <Text style = {styles.idSub}>Rp 5000/kg</Text>                  
+                </View>
+              </View>
+              <View style = {styles.formOrder}>
+                <View style = {styles.formTitle}>
+                    <Text style = {{fontWeight: 'bold', fontSize: 18}}>Place Your Order</Text>
+                </View>
+                <View style = {styles.formGroup}>
+                  <View style = {styles.label}>
+                    <Text>Quantity (kg): </Text>
+                  </View>
+                  <View style = {styles.formPicker}>
+                    <TextInput placeholder='enter the weight' style = {{borderBottomWidth: 1, width: '90%', height: '80%'}}/>
+                  </View>
+                </View>
+                <View style = {styles.formGroup}>
+                  <View style = {styles.label}>
+                  <Text>Delivery:</Text>
+                  </View>
+                  <View style = {styles.formPicker}>
+                    <Picker 
+                      style={styles.pickerInput}>
+                      <Picker.Item label="None" value="java" />
+                      <Picker.Item label="Antar Jemput" value="js" />
+                    </Picker>
+                  </View>
+                </View>
+                <View style = {styles.formGroup}>
+                  <View style = {styles.label}>
+                  <Text>Estimasi</Text>
+                  </View>
+                  <View style = {styles.formPicker}>
+                    <Picker 
+                      style={styles.pickerInput}>
+                      <Picker.Item label="Satuan" value="java" />
+                      <Picker.Item label="Kiloan" value="js" />
+                    </Picker>
+                  </View>
+                </View>
+              </View>
             </View>
-            <View style={styles.fitur}>
+            {/* <View style={styles.fitur}>
               <Text style={styles.name}>Qty</Text>
               <View style={styles.areaFitur}>
                 {qty.map((qty, index) => {
@@ -152,7 +206,6 @@ const DetailLaundry = props => {
               />
             </View>
 
-            {/* method */}
             <View style={styles.fitur}>
               <Text style={styles.name}>Metode</Text>
               <View style={styles.areaFitur}>
@@ -168,11 +221,14 @@ const DetailLaundry = props => {
                   return <FeatureDate key={index} data={est} />;
                 })}
               </View>
-            </View>
+            </View> */}
 
             <View style={styles.footer}>
               <TouchableOpacity style={styles.btn} onPress={handleorder}>
-                <Text style={styles.txtBtn}>Oke</Text>
+                <Text style={styles.txtBtn}>ORDER NOW</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cancelBtn} onPress={()=>props.navigation.navigate('Home')}>
+                <Text style = {{color: values.primaryColor, fontSize: 16}}>Cancel</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -182,7 +238,70 @@ const DetailLaundry = props => {
   );
 };
 
+const values = {
+  light: '#FCFCFC',
+  primaryColor: '#362DAE',
+  form: '#FFF',
+  success: '#48C888',
+  fail: '#F54444',
+  accent: '#E0EF0F',
+};
+
 const styles = StyleSheet.create({
+  cancelBtn:{
+    paddingHorizontal: 30,
+    paddingVertical: 16,
+    borderRadius: 100,
+  },
+  idSub:{
+    color: '#888',
+  },
+  idTitle:{
+    fontWeight: 'bold',
+    paddingBottom: 4
+  },
+  idChild:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '30%',
+  },
+  laundryIdentity:{
+    flexDirection: 'row',
+    justifyContent:'space-around',
+    width: '100%',
+    height: 72,
+  },
+  pickerInput:{
+    width: '90%',
+    height: 50
+  },
+  formTitle:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    width: '100%'
+  },
+  formGroup:{
+    flexDirection: 'row',
+    width: '100%',
+    height: 50,
+    marginBottom: 8,
+  },
+  label: {
+    paddingLeft: 10,
+    justifyContent: 'center',
+    flex: 1
+  },
+  formPicker:{
+    justifyContent: 'center',
+    height: 50,
+    flex: 2.5
+  },
+  formOrder:{
+    alignItems: 'center',
+    width: '100%',
+  },
   container: {
     backgroundColor: '#fff',
     paddingHorizontal: 0,
@@ -202,7 +321,7 @@ const styles = StyleSheet.create({
   },
   fitur: {
     paddingHorizontal: 20,
-    marginTop: 10,
+    marginTop: 8,
     backgroundColor: '#fff',
     paddingBottom: 20,
   },
@@ -222,7 +341,7 @@ const styles = StyleSheet.create({
     borderColor: '#285bd4',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 5,
+    marginTop: 8,
   },
   txtGray: {
     fontSize: 15,
@@ -294,26 +413,27 @@ const styles = StyleSheet.create({
   footer: {
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingTop: 40,
-    paddingBottom: 20,
-    flexDirection: 'row',
+    paddingTop: 16,
+    paddingBottom: 16,
     justifyContent: 'center',
+    alignItems: 'center'
   },
   btn: {
-    backgroundColor: '#285bd4',
+    backgroundColor: values.primaryColor,
     paddingHorizontal: 30,
     paddingVertical: 10,
-    marginRight: 20,
+    borderRadius: 100,
+    marginBottom: 8,
   },
   txtBtn: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: values.light,
     fontSize: 18,
   },
   txtBlue: {
     color: '#285bd4',
   },
 });
+
 export default DetailLaundry;
 
 export const FeatureDate = props => {
